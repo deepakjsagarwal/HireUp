@@ -1,0 +1,90 @@
+<%-include('../partials/header',{title: "Register"})%>
+<div class="container">
+    <h1>Register</h1>
+    <form action="/register" method="POST" class="row needs-validation" novalidate>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="username">Username</label><input
+                class="form-control" type="text" id="username" name="username" required autofocus>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a username.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="email">Email</label><input
+                class="form-control" type="email" id="email" name="email" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose an email.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="password">Password</label><input
+                class="form-control" type="password" id="password" name="password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a password.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="company">School/Company</label><input
+                class="form-control" type="text" id="company" name="company" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a School/Company.
+            </div>
+        </div>
+        <!-- <div class="col-md-6 mb-3">
+            <label class="form-label" for="skills">Skills</label><input
+                class="form-control" type="text" id="skills" name="skills[0]" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a Skill.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="skills">Skills</label><input
+                class="form-control" type="text" id="skills" name="skills[1]" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a Skill.
+            </div>
+        </div> -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="degree">Degree/Title</label><input
+                class="form-control" type="text" id="degree" name="degree" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a Degree/Title.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="linkedinURL">LinkedIn URL</label><input
+                class="form-control" type="text" id="linkedinURL" name="linkedinURL" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give your LinkedIn URL.
+            </div>
+        </div>        
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Register</button>
+        </div>
+    </form>
+</div>
+<%-include('../partials/footer')%>
