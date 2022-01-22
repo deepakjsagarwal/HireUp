@@ -9,7 +9,13 @@ const UserSchema = new Schema({
         unique: true
     },
     skills:[{
-        type:String
+        name:{
+            type: String
+        },
+        users:{
+            type:Schema.Types.ObjectId,
+            ref: 'User'
+        }
     }],
     company:{
         type:String
@@ -19,7 +25,10 @@ const UserSchema = new Schema({
     },
     degree:{
         type:String
-    }
+    },
+    dreamCompany:[{
+        type:String
+    }]
 })
 
 UserSchema.plugin(passportLocalMongoose);

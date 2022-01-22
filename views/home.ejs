@@ -1,49 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HireUp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-    <link rel="stylesheet" href="/stylesheets/home.css">
-</head>
-
-<body class="d-flex text-center text-black bg-light">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="mb-auto">
-            <div>
-                <h3 class="float-md-left mb-0">HireUp</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-right">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    <% if(!currentUser) { %>
-                    <a class="nav-link" href="/login">Login</a>
-                    <a class="nav-link" href="/register">Register</a>
-                    <% } else { %>
-                    <a class="nav-link" href="/logout">Logout</a>
-                    <% } %>
-                </nav>
-            </div>
-        </header>
-        <main class="px-3">
-            <h3>Get Referral to your Next Company</h3>
-            <p class="lead"> Welcome to HireUp! <br> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam amet, sint velit saepe quo </p>            
-        </main>
-
-        <footer class="mt-auto text-black-50">
-            <p>&copy; 2022 HireUp </p>
-        </footer>
-
-
+<%-include("./partials/header",{title: "HireUp"}) %> 
+<div class="mb-3 vh-100">
+    <div class="mb-3">
+        <h3>Get Referral to your Next Company</h3>
+        <select class="custom-select" id="inputGroupSelect1" onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">    
+        <option value="" selected>Choose Company</option>
+        <% for(let company of companies){ %>
+                <option value="<%= company %> "><%=company%> </option>  
+        <% } %> 
+        </select>
     </div>
+    <div class="mb-3">
+        <p class="lead"> We have made successful referrals to</p>  
+        <div>
+            <img class="img-fluid img-thumbnail" src="/images/google.jpg">
+            <img class="img-fluid img-thumbnail" src="/images/microsoft.jpg">
+            <img class="img-fluid img-thumbnail" src="/images/meta.jpg">
+            <img class="img-fluid img-thumbnail" src="/images/amazon.jpg">
+            <img class="img-fluid img-thumbnail" src="/images/twitter.jpg">
+            <img class="img-fluid img-thumbnail" src="/images/uber.jpg">
+            <img class="img-fluid img-thumbnail" src="/images/apple.jpg">
+        </div>
+    </div>
+</div>      
+<div class="container d-flex flex-column align-center vh-100">
+    <p class="lead"> How it works?</p>  
+    <ul class="description">
+        <li class="current">Create and Complete your profile on HireUp</li>
+        <li class="current">Select companies you want to get referrals to</li>
+        <li class="current">Referrers discover your profile and refer you</li>
+        <li class="current">Get upvotes on skills to stand out</li>
+    </ul>
+</div>    
+<div class="container d-flex flex-column align-center vh-100">
+    <div>
+        <p class="lead"> How it works for Referrers?</p> 
+        <select class="custom-select" id="inputGroupSelect2" onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">    
+            <option value="" selected>Choose Company</option>
+            <% for(let company of companies){ %>
+                    <option value="<%= company %>"><%=company%> </option>  
+            <% } %> 
+        </select>
+    </div>
+    <div>
+        <p class="lead"> Where do you work?</p>  
+        <ul class="description">
+            <li class="current">Discover Candidates</li>
+            <li class="current">Refer candidates to your Company</li>
+            <li class="current">Your company gets great talent and you get referral bonus</li>
+        </ul>
+    </div>
+</div>    
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
-        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+<script>
+    document.querySelector("body").setAttribute("class","d-flex flex-column vh-100 text-center");
+</script>
+<%-include("./partials/footer")%>

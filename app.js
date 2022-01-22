@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user')
 
 const userRoutes = require('./routes/users')
-
+const {companies} = require('./public/javascripts/companies');
 mongoose.connect('mongodb://localhost:27017/hireup', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -57,13 +57,10 @@ app.use((req,res,next)=>{
     next();   
 })
 
-app.get('/main',(req,res)=>{
-    res.render('main/index');
-})
 
 app.use('/',userRoutes)
 app.get('/',(req,res)=>{
-    res.render('home');
+    res.render('home',{companies});
 })
 
 
@@ -76,6 +73,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error',{err});
 })
 
-app.listen(8080, () => {
-    console.log("Listening on 8080")
+app.listen(6060, () => {
+    console.log("Listening on 6060")
 })
