@@ -1,7 +1,7 @@
 <%-include('../partials/header',{title: "Register"})%>
 <div class="container">
     <h1>Register</h1>
-    <!-- action="/register" method="POST" -->
+
     <form id="userForm"  class="row needs-validation" novalidate>
         <div class="col-md-6 mb-3">
             <label class="form-label" for="username">Username</label><input
@@ -43,25 +43,7 @@
                 Please choose a School/Company.
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 mb-3" >
-                <label class="form-label" for="skills">Skills</label><input
-                    class="form-control" type="text" id="skills">
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please choose a Skill.
-                </div>
-            </div>
-            <div class="col-md-6 mt-auto mb-3">
-                <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
-            </div>
-            <div class="row" id="skillsDiv">
-                <!-- <input type="hidden" data-validate="true" required> -->
-            </div>
-        </div>
-<!-- 
+
         <div class="col-md-6 mb-3">
             <label class="form-label" for="degree">Degree/Title</label><input
                 class="form-control" type="text" id="degree" name="degree" required>
@@ -81,10 +63,54 @@
             <div class="invalid-feedback">
                 Please give your LinkedIn URL.
             </div>
-        </div>         -->
+        </div>    
+        
+        <div class="row">
+            <div class="col-md-6 mb-3" >
+                <label class="form-label" for="skills">Skills</label>
+                <div class="col-md-12 d-flex">
+                    <div class="col-md-10 me-2">
+                        <input class="form-control" type="text" id="skills">         
+                    </div>
+                    <div class="col-md-2 ">
+                        <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
+                    </div>
+                </div>
+                <!-- <div class="valid-feedback">
+                    Looks good!
+                </div> -->
+                <div class="invalid-feedback">
+                    Please choose a hobby.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3" >
+                <label class="form-label" for="rcompanies">Refer Companies</label>
+                <div class="col-md-12 d-flex">
+                    <div class="col-md-10 me-2">
+                        <input class="form-control" type="text" id="rcompanies">         
+                    </div>
+                    <div class="col-md-2 ">
+                        <button class="btn btn-primary" type="button" onclick="addCompany()">Add</button>
+                    </div>
+                </div>
+                <!-- <div class="valid-feedback">
+                    Looks good!
+                </div> -->
+                <div class="invalid-feedback">
+                    Please choose a company.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="skillsDiv">
+            <!-- <input type="hidden" data-validate="true" required> -->
+        </div>
+        <div class="col-md-6" id="rcompaniesDiv">
+            <!-- <input type="hidden" data-validate="true" required> -->
+        </div>
+        
         <div class="col-12">
             <button type="submit" class="btn btn-success" >Register</button>
-            <!-- onclick="register()" -->
         </div>
     </form>
 </div>
@@ -93,6 +119,9 @@
     const skillsDiv = document.getElementById("skillsDiv");
     const skillsInput = document.getElementById("skills");
     var skills = [];
+    const rcompaniesDiv = document.getElementById("rcompaniesDiv");
+    const rcompaniesInput = document.getElementById("rcompanies");
+    var rcompanies = [];
 
     function addItem(){
         var skill = skillsInput.value;
@@ -114,9 +143,9 @@
                 skills.push(skill);
 
                 const skillDiv = document.createElement('div');
-                skillDiv.setAttribute("class","col-2 mb-3 btn btn-info px-3 mx-3");
+                skillDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
                 skillDiv.innerHTML = `
-                    <span>${skill}</span><span id="skill${skills.length-1}" onclick="removeItem(this)">X</span>
+                    <span class="mx-2">${skill}</span><span class="bi-x-lg mx-2" id="skill${skills.length-1}" onclick="removeItem(this)"></span>
                     <input type="hidden" value="${skill}" name="skills[${skills.length-1}]" required>
                 `;
                 skillsDiv.appendChild(skillDiv);
@@ -137,9 +166,9 @@
         if(skills.length){
             for(var x = 0;x<skills.length;x++){
                 const skillDiv = document.createElement('div');
-                skillDiv.setAttribute("class","col-2 mb-3 btn btn-info px-3 mx-3");
+                skillDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
                 skillDiv.innerHTML = `
-                    <span>${skills[x]}</span><span id="skill${x}" onclick="removeItem(this)">X</span>
+                    <span class="mx-2">${skills[x]}</span><span class="bi-x-lg mx-2" id="skill${x}" onclick="removeItem(this)"></span>
                     <input type="hidden" value="${skills[x]}" data-validate="true" name="skills[${x}]" required>
                 `;
                 skillsDiv.appendChild(skillDiv);
@@ -150,54 +179,149 @@
         console.log(skills);
     }
 
-    // function register(){
-    //     document.getElementById("userForm").innerHTML+=`<button id="sub" type="submit"></button>`
-    //     if(skills.length>0){
-    //         console.log("Inside if")
-    //     }else{
-    //         console.log("Inside else")
-    //         document.getElementById("skills").setAttribute("required","true");
-    //     }
-    //     document.getElementById("sub").click();
-    //     document.getElementById("userForm").removeChild(document.getElementById("sub"));
-    // }
+    function addCompany(){
+        var rcompany = rcompaniesInput.value;
+        if(rcompany && rcompany.trim()){
+
+            if(rcompanies.length===0){
+                rcompaniesDiv.innerHTML="";
+            }
+            rcompany = rcompany.trim();
+
+            var isExisting = false;
+            for(var x = 0;x<rcompanies.length;x++){
+                if(rcompanies[x].toLowerCase()===rcompany.toLowerCase()){
+                    isExisting = true;
+                    break;
+                }
+            }
+            if(!isExisting){
+                rcompanies.push(rcompany);
+
+                const rcompanyDiv = document.createElement('div');
+                rcompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                rcompanyDiv.innerHTML = `
+                    <span class="mx-2">${rcompany}</span><span class="bi-x-lg mx-2" id="rcompany${rcompanies.length-1}" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="${rcompany}" name="rcompanies[${rcompanies.length-1}]" required>
+                `;
+                rcompaniesDiv.appendChild(rcompanyDiv);
+            }
+        }
+        rcompaniesInput.value = "";
+        console.log(rcompanies);
+    }
+
+    function removeCompany(element){
+        var parent = element.parentNode;
+        var grandParent = parent.parentNode;
+        grandParent.innerHTML = "";
+
+        var id = element.id;
+        rcompanies.splice(id.charAt(id.length-1),1);
+
+        if(rcompanies.length){
+            for(var x = 0;x<rcompanies.length;x++){
+                const rcompanyDiv = document.createElement('div');
+                rcompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                rcompanyDiv.innerHTML = `
+                    <span class="mx-2">${rcompanies[x]}</span><span class="bi-x-lg mx-2" id="rcompany${x}" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="${rcompanies[x]}" data-validate="true" name="rcompanies[${x}]" required>
+                `;
+                rcompaniesDiv.appendChild(rcompanyDiv);
+            }
+        }else{
+            // rcompaniesDiv.innerHTML=`<input type="hidden" data-validate="true" required>`;
+        }
+        console.log(rcompanies);
+    }
+
     const form = document.getElementById("userForm");
     form.addEventListener('submit', register);
-    function register(e) {
+
+    async function register(e) {
+        e.preventDefault();
         
-        document.getElementById("skills").setAttribute("required","false"); 
         const username  = document.getElementById("username");
         const email = document.getElementById("email");
         const password = document.getElementById("password");
-        // handle hobbies - I just didn't include in this example
+        const company = document.getElementById("company");
+        const degree = document.getElementById("degree");
+        const linkedinURL = document.getElementById("linkedinURL");
         
+        if(skills.length === 0 && skillsInput.value !== "") {
+            skills.push(skillsInput.value);
+        }
+        if(rcompanies.length === 0 && rcompaniesInput.value !== "") {
+            rcompanies.push(rcompaniesInput.value);
+        }
+
+        var ski = [];
+        for(let skill of skills){
+            var temp = {name: `${skill}`};
+            ski.push(temp);
+        }
+
         const data = {
             username: username.value,
             email: email.value,
             password: password.value,
-            skills: skills
+            skills: ski,
+            company: company.value,
+            linkedinURL: linkedinURL.value,
+            degree: degree.value,
+            dreamCompany: rcompanies
         }
         console.log(data)
-        console.log(skills.length)
-        if(skills.length>0){
+
+        let emptyField = false;
+
+        for (const property in data) {
+            console.log(`${property}: ${data[property]}`);
+            if(Object.is(data[property], "")) emptyField = true;
+        }
+
+        console.log(emptyField)
+        
+        
+        if(!emptyField && skills.length>0){
             console.log("Inside if")
             //clear the input values
             // username.value = '';
             // email.value = '';
             // password.value = '';
+            skillsInput.value=" ";
+            rcompaniesInput.value=" ";
         }else{
             console.log("Inside else")
             document.getElementById("skills").setAttribute("required","true");
+            ment.getElementById("rcompanies").setAttribute("required","true");
+            return 
         }
+        console.log(data)
 
-        fetch('/register', {
+        let res = await fetch('/register', {
             method: "POST",
             body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' }
-        }) 
-        console.log("after fetch")
-        // document.getElementById("skills").setAttribute("required","false"); 
-        console.log("removed required")      
+            headers: { 'Content-Type': 'application/json' },
+            redirect: "follow"
+        }).then(async (response) => {
+            
+            if(response.redirected) {
+                return response
+            }
+
+            const data = await response.json();
+            return { response, data }  //returning response && data from server back to res variable
+        }).catch((error) => { error });
+
+        if (res.redirected) { 
+            console.log("RES", res)
+            window.location.assign(res.url);
+        }
+
+        document.getElementById("skills").setAttribute("required","false");
+        document.getElementById("rcompanies").setAttribute("required","false");       
     }
+
 </script>
 <%-include('../partials/footer')%>

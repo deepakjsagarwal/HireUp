@@ -1,6 +1,6 @@
 <%-include('../partials/header',{title: "Users" })%>
 
-<% for(let user of users){ %>
+<!-- <% for(let user of users){ %>
     <div><%= user.username  %></div>
     <% for(let skill of user.skills){ %>
         <div><%= skill.name%> </div>
@@ -14,7 +14,293 @@
             </svg>
         </a>
     <% } %> 
-<%}%> 
+<%}%>  -->
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="/stylesheets/all.css">
+<div class="container">
+    <div class="row">
+        <!--<div class="col-lg-3">
+            <div class="sidebar">
+                <div class="widget border-0">
+                    <div class="search">
+                        <input class="form-control" type="text" placeholder="Search Keywords">
+                    </div>
+                </div>
+                <div class="widget border-0">
+                    <div class="locations">
+                        <input class="form-control" type="text" placeholder="All Locations">
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Date Posted</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
+                    </div>
+                    <div class="collapse show" id="dateposted">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="dateposted1">
+                                <label class="custom-control-label" for="dateposted1">Last hour</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="dateposted2">
+                                <label class="custom-control-label" for="dateposted2">Last 24 hour</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="dateposted3">
+                                <label class="custom-control-label" for="dateposted3">Last 7 days</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="dateposted4">
+                                <label class="custom-control-label" for="dateposted4">Last 14 days</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="dateposted5">
+                                <label class="custom-control-label" for="dateposted5">Last 30 days</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Specialism</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
+                    </div>
+                    <div class="collapse show" id="specialism">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="specialism1">
+                                <label class="custom-control-label" for="specialism1">IT Contractor</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="specialism2">
+                                <label class="custom-control-label" for="specialism2">Clinical Psychology</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="specialism3">
+                                <label class="custom-control-label" for="specialism3">Digital &amp; Creative</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="specialism4">
+                                <label class="custom-control-label" for="specialism4">Estate Agency</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="specialism5">
+                                <label class="custom-control-label" for="specialism5">Graduate</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Job Type</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#jobtype" role="button" aria-expanded="false" aria-controls="jobtype"> <i class="fas fa-chevron-down"></i> </a>
+                    </div>
+                    <div class="collapse show" id="jobtype">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox fulltime-job">
+                                <input type="checkbox" class="custom-control-input" id="jobtype1">
+                                <label class="custom-control-label" for="jobtype1">Full Time</label>
+                            </div>
+                            <div class="custom-control custom-checkbox parttime-job">
+                                <input type="checkbox" class="custom-control-input" id="jobtype2">
+                                <label class="custom-control-label" for="jobtype2">Part-Time</label>
+                            </div>
+                            <div class="custom-control custom-checkbox freelance-job">
+                                <input type="checkbox" class="custom-control-input" id="jobtype3">
+                                <label class="custom-control-label" for="jobtype3">Freelance</label>
+                            </div>
+                            <div class="custom-control custom-checkbox temporary-job">
+                                <input type="checkbox" class="custom-control-input" id="jobtype4">
+                                <label class="custom-control-label" for="jobtype4">Temporary</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Experience</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#experience" role="button" aria-expanded="false" aria-controls="experience"> <i class="fas fa-chevron-down"></i> </a>
+                    </div>
+                    <div class="collapse show" id="experience">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="experience1">
+                                <label class="custom-control-label" for="experience1">fresher</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="experience2">
+                                <label class="custom-control-label" for="experience2">Less than 1 year</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="experience3">
+                                <label class="custom-control-label" for="experience3">2 Year</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="experience4">
+                                <label class="custom-control-label" for="experience4">3 Year</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="experience5">
+                                <label class="custom-control-label" for="experience5">4 Year</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Offered Salary</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#Offeredsalary" role="button" aria-expanded="false" aria-controls="Offeredsalary"> <i class="fas fa-chevron-down"></i> </a>
+                    </div>
+                    <div class="collapse show" id="Offeredsalary">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="Offeredsalary1">
+                                <label class="custom-control-label" for="Offeredsalary1">10k - 20k</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="Offeredsalary2">
+                                <label class="custom-control-label" for="Offeredsalary2">20k - 30k</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="Offeredsalary3">
+                                <label class="custom-control-label" for="Offeredsalary3">30k - 40k</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="Offeredsalary4">
+                                <label class="custom-control-label" for="Offeredsalary4">40k - 50k</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="Offeredsalary5">
+                                <label class="custom-control-label" for="Offeredsalary5">50k - 60k</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Gender</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#gender" role="button" aria-expanded="false" aria-controls="gender"><i class="fas fa-chevron-down"></i></a>
+                    </div>
+                    <div class="collapse show" id="gender">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="gender1">
+                                <label class="custom-control-label" for="gender1">Male</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="gender2">
+                                <label class="custom-control-label" for="gender2">Female</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title widget-collapse">
+                        <h6>Qualification</h6>
+                        <a class="ml-auto" data-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
+                    </div>
+                    <div class="collapse show" id="qualification">
+                        <div class="widget-content">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="qualification1">
+                                <label class="custom-control-label" for="qualification1">Matriculation</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="qualification2">
+                                <label class="custom-control-label" for="qualification2">Intermediate</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="qualification3">
+                                <label class="custom-control-label" for="qualification3">Graduate</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget border-0">
+                    <div class="widget-add">
+                        <img class="img-fluid" src="images/add-banner.png" alt=""></div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-lg-12">
+            <!-- <div class="row mb-4">
+                <div class="col-12">
+                    <h6 class="mb-0">Showing 1-10 of <span class="text-primary">28 Candidates</span></h6>
+                </div>
+            </div> -->
+            <!-- <div class="job-filter mb-4 d-sm-flex align-items-center">
+                <div class="job-alert-bt"> <a class="btn btn-md btn-dark" href="#"><i class="fa fa-envelope"></i>Get job alert </a> </div>
+                <div class="job-shortby ml-sm-auto d-flex align-items-center">
+                    <form class="form-inline">
+                        <div class="form-group mb-0">
+                            <label class="justify-content-start mr-2">Sort by :</label>
+                            <div class="short-by">
+                                <select class="form-control basic-select select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="3">Newest</option>
+                                    <option>Oldest</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> -->
+            <div class="row">
+                <% for(let user of users){ %> 
+                    <div class="col-sm-6 col-lg-3 mb-4">
+                        <div class="candidate-list candidate-grid">
+                            <!-- <div class="candidate-list-image">
+                                <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                            </div> -->
+                            <div class="candidate-list-details">
+                                <div class="candidate-list-info">
+                                    <div class="candidate-list-title">
+                                        <h5><a href="/profile/<%= user.username %>"><%= user.username%></a></h5>
+                                    </div>
+                                    <div class="candidate-list-option">
+                                        <ul class="list-unstyled">
+                                            <li><%= user.degree%> </li>
+                                        </ul>
+                                        <ul class="list-unstyled">                                           
+                                            <li><%= user.company%> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <% for(let skill of user.skills){ %> 
+                                    <div class="candidate-list-favourite-time">
+                                        <a class="candidate-list-favourite order-2" href="#">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                            </svg>
+                                        
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                                                <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                            </svg>
+                                        </a>
+                                        <span class="candidate-list-time order-1"><%=skill.name%> </span>
+                                    </div>
+                                <% } %> 
+                            </div>
+                        </div>
+                    </div>
+                <% } %> 
+            </div>
+            <!-- <div class="row">
+                <div class="col-12 text-center mt-4 mt-sm-5">
+                    <ul class="pagination justify-content-center mb-0">
+                        <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
+                        <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span class="sr-only">(current)</span></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">25</a></li>
+                        <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
 
 <%-include('../partials/footer')%>
