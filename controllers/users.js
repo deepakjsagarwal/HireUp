@@ -9,20 +9,25 @@ firebase.initializeApp(firebaseConfig);
 // Initialize Firebase Database.
 const db = firebase.firestore();
 
+const usersRef = db.collection('users');
+
 // ---------- REGISTER ----------
 module.exports.renderRegister = (req, res) => {
     res.render('users/register', { companies,skills })
 }
 
 module.exports.register = async (req, res) => {
-    const { email, name, password,college, company, degree,title, linkedinURL, skills, dreamCompany } = req.body;
+    const { email, name, password,college, company, degree,title, linkedinURL, skills, dreamCompanies } = req.body;
     
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async (userCredential) => {
             // Sign-In user and Add details about the user.
             var user = userCredential.user;
-            console.log("USERRRRRRRRRR")
-            await db.collection('users').doc(user.uid).set({ name, college,company, degree,title, linkedinURL, skills, dreamCompany, email })
+            
+            await db.collection('users').doc(user.uid).set({ name, college,company, degree,title,linkedinURL, dreamCompanies, email })
+            for(let skill of skills)
+                await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({});
+            
             res.redirect('/main')
         })
         .catch((error) => {
@@ -75,33 +80,28 @@ module.exports.logout = (req, res) => {
 module.exports.profilePage = async (req, res,next) => {
     const uid = req.params.uid;
 
-    await db.collection('users').doc(uid).get()
-        .then((doc) => {
-            if (doc.exists) {
-                const user = doc.data();
-                res.render('users/profile', { user })
-
-            } else {
-                // doc.data() will be undefined in this case
-                next();
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-            req.flash('error', error.message)
-            res.redirect('/main');
-        });
+    const doc = await usersRef.doc(uid).get();
+    if (!doc.exists) {
+        console.log('No such document!');
+        next();
+    } else {
+        const user = await makeUser(doc);
+        console.log(user);
+        res.render('users/profile', { user })
+    }
 }
 
 module.exports.showUsers = async (req, res,next) => {
     const currentUser = firebase.auth().currentUser;
-    await db.collection('users').doc(currentUser.uid).get()
+    await usersRef.doc(currentUser.uid).get()
         .then(async (doc) => {
             if (doc.exists) {
-                const user = doc.data();
 
-                const usersDoc = await db.collection('users').where('dreamCompany', 'array-contains', user.company).get();
-                const users = usersDoc.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
+                const user = doc.data();
+                const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', user.company).get();
+                const users = await Promise.all(usersDoc.docs.map((doc)=> makeUser(doc)));                
                 res.render("users/all",{users});
+
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -113,4 +113,15 @@ module.exports.showUsers = async (req, res,next) => {
             req.flash('error', error.message)
             res.redirect('/main');
         });
+}
+
+async function makeUser (doc){
+    const skills = [];
+    const skillsSnapshot = await usersRef.doc(doc.id).collection('skills').get();
+    skillsSnapshot.forEach(doc => {
+        skills.push(doc.id);
+    });
+    
+    const user = {...doc.data(),skills,uid:doc.id};
+    return user;
 }

@@ -274,23 +274,17 @@
             dreamCompanies.push(dreamCompaniesInput.value);
         }
 
-        var ski = [];
-        for(let skill of skills){
-            var temp = {name: `${skill}`};
-            ski.push(temp);
-        }
-
         const data = {
             name: name.value.trim(),
             email: email.value.trim(),
             password: password.value,
-            skills: ski,
+            skills: skills,
             company: company.value.trim(),
             college: college.value.trim(),
             title: title.value.trim(),
             linkedinURL: linkedinURL.value.trim(),
             degree: degree.value.trim(),
-            dreamCompany: dreamCompanies
+            dreamCompanies: dreamCompanies
         }
 
         let emptyField = false;
