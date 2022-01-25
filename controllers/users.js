@@ -68,7 +68,7 @@ module.exports.logout = (req, res) => {
 }
 
 // ---------- LOOKUPS ----------
-module.exports.profilePage = async (req, res) => {
+module.exports.profilePage = async (req, res,next) => {
     const uid = req.params.uid;
 
     await db.collection('users').doc(uid).get()
@@ -79,45 +79,29 @@ module.exports.profilePage = async (req, res) => {
 
             } else {
                 // doc.data() will be undefined in this case
-                console.log("No such document!");
+                next();
             }
         }).catch((error) => {
             console.log("Error getting document:", error);
             req.flash('error', error.message)
             res.redirect('/main');
         });
-
 }
 
-module.exports.showUsers = async (req, res) => {
+module.exports.showUsers = async (req, res,next) => {
     const currentUser = firebase.auth().currentUser;
     await db.collection('users').doc(currentUser.uid).get()
         .then(async (doc) => {
             if (doc.exists) {
-
                 const user = doc.data();
-                console.log("USERTRRRRRRRRRR", user);
 
-                await db.collection('users').where('dreamCompany', 'array-contains', user.company).get()
-                    .then((doc1) => {
-                        console.log("DOCCCCCCCCCCC", doc1)
-                        if (doc1.exists) {
-                            const users = doc1.data();
-                            console.log("ALL USERS", users);
-                            res.render('users/all', { users });
-                        } else {
-                            console.log("No such document inside!");
-                        }
-                    })
-                    .catch((error) => {
-                        console.log("Error getting document inside:", error);
-                        req.flash('error', error.message)
-                        res.redirect('/main');
-                    });
-
+                const usersDoc = await db.collection('users').where('dreamCompany', 'array-contains', user.company).get();
+                const users = usersDoc.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
+                res.render("users/all",{users});
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
+                next();
             }
         })
         .catch((error) => {

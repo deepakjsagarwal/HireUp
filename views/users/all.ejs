@@ -1,21 +1,5 @@
 <%-include('../partials/header',{title: "Users" })%>
 
-<!-- <% for(let user of users){ %>
-    <div><%= user.username  %></div>
-    <% for(let skill of user.skills){ %>
-        <div><%= skill.name%> </div>
-        <a href="/like/<%=skill._id %> ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
-            </svg>
-        
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
-            </svg>
-        </a>
-    <% } %> 
-<%}%>  -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 <link rel="stylesheet" href="/stylesheets/all.css">
 <div class="container">
@@ -256,7 +240,7 @@
                             <div class="candidate-list-details">
                                 <div class="candidate-list-info">
                                     <div class="candidate-list-title">
-                                        <h5><a href="/profile/<%= user.username %>"><%= user.username%></a></h5>
+                                        <h5><a href="/profile/<%= user.uid %>"><%= user.name%></a></h5>
                                     </div>
                                     <div class="candidate-list-option">
                                         <ul class="list-unstyled">
