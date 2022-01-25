@@ -1,4 +1,5 @@
 const { companies } = require('../public/javascripts/companies');
+const {skills} = require('../public/javascripts/skills')
 
 // Initialize Firebase config.
 const firebase = require("firebase");
@@ -10,12 +11,12 @@ const db = firebase.firestore();
 
 // ---------- REGISTER ----------
 module.exports.renderRegister = (req, res) => {
-    res.render('users/register', { companies })
+    res.render('users/register', { companies,skills })
 }
 
 module.exports.register = async (req, res) => {
     const { email, name, password,college, company, degree,title, linkedinURL, skills, dreamCompany } = req.body;
-
+    
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async (userCredential) => {
             // Sign-In user and Add details about the user.

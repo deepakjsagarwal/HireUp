@@ -36,7 +36,7 @@
         
         <div class="col-md-6 mb-3">
             <label class="form-label" for="linkedinURL">LinkedIn URL</label><input
-                class="form-control" type="text" id="linkedinURL" name="linkedinURL" required>
+                class="form-control" type="text" id="linkedinURL" name="linkedinURL" placeholder="https://www.linkedin.com/in/<username>" required>
             <div class="valid-feedback">
                 Looks good!
             </div>
@@ -56,8 +56,14 @@
             </div>
         </div>
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="company">Company</label><input
-                class="form-control" type="text" id="company" name="company">
+            <label class="form-label" for="company">Company</label>
+            <!-- <input class="form-control" type="text" id="company" name="company"> -->
+            <select class="custom-select" id="company" name="company">    
+                <option value="" selected>Choose Company</option>
+                <% for(let company of companies){ %>
+                        <option value="<%= company %> "><%=company%> </option>  
+                <% } %> 
+            </select>
         </div>
 
         <div class="col-md-6 mb-3">
@@ -81,22 +87,34 @@
                 <label class="form-label" for="skills">Skills</label>
                 <div class="col-md-12 d-flex">
                     <div class="col-md-10 me-2">
-                        <input class="form-control" type="text" id="skills">         
+                        <!-- <input class="form-control" type="text" id="skills">          -->
+                        <select class="custom-select" id="skills" style="width:100%">    
+                            <option value="" selected>Choose Skill</option>
+                            <% for(let skill of skills){ %>
+                                    <option value="<%= skill %> "><%=skill%> </option>  
+                            <% } %> 
+                        </select>
                     </div>
                     <div class="col-md-2 ">
                         <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
                     </div>
                 </div>
                 <div class="invalid-feedback">
-                    Please choose a hobby.
+                    Please choose a skill.
                 </div>
             </div>
 
             <div class="col-md-6 mb-3" >
-                <label class="form-label" for="rcompanies">Refer Companies</label>
+                <label class="form-label" for="dreamCompanies">Refer Companies</label>
                 <div class="col-md-12 d-flex">
                     <div class="col-md-10 me-2">
-                        <input class="form-control" type="text" id="rcompanies">         
+                        <!-- <input class="form-control" type="text" id="dreamCompanies">   -->
+                        <select class="custom-select" id="dreamCompanies">    
+                            <option value="" selected>Choose Company</option>
+                            <% for(let company of companies){ %>
+                                    <option value="<%= company %> "><%=company%> </option>  
+                            <% } %> 
+                        </select>       
                     </div>
                     <div class="col-md-2 ">
                         <button class="btn btn-primary" type="button" onclick="addCompany()">Add</button>
@@ -109,7 +127,7 @@
         </div>
         <div class="col-md-6" id="skillsDiv">
         </div>
-        <div class="col-md-6" id="rcompaniesDiv">
+        <div class="col-md-6" id="dreamCompaniesDiv">
         </div>
         
         <div class="col-12">
@@ -122,9 +140,9 @@
     const skillsDiv = document.getElementById("skillsDiv");
     const skillsInput = document.getElementById("skills");
     var skills = [];
-    const rcompaniesDiv = document.getElementById("rcompaniesDiv");
-    const rcompaniesInput = document.getElementById("rcompanies");
-    var rcompanies = [];
+    const dreamCompaniesDiv = document.getElementById("dreamCompaniesDiv");
+    const dreamCompaniesInput = document.getElementById("dreamCompanies");
+    var dreamCompanies = [];
 
     function addItem(){
         var skill = skillsInput.value;
@@ -155,7 +173,7 @@
             }
         }
         skillsInput.value = "";
-        console.log(skills);
+        // console.log(skills);
     }
 
     function removeItem(element){
@@ -176,42 +194,40 @@
                 `;
                 skillsDiv.appendChild(skillDiv);
             }
-        }else{
-            // skillsDiv.innerHTML=`<input type="hidden" data-validate="true" required>`;
         }
-        console.log(skills);
+        // console.log(skills);
     }
 
     function addCompany(){
-        var rcompany = rcompaniesInput.value;
-        if(rcompany && rcompany.trim()){
+        var dreamCompany = dreamCompaniesInput.value;
+        if(dreamCompany && dreamCompany.trim()){
 
-            if(rcompanies.length===0){
-                rcompaniesDiv.innerHTML="";
+            if(dreamCompanies.length===0){
+                dreamCompaniesDiv.innerHTML="";
             }
-            rcompany = rcompany.trim();
+            dreamCompany = dreamCompany.trim();
 
             var isExisting = false;
-            for(var x = 0;x<rcompanies.length;x++){
-                if(rcompanies[x].toLowerCase()===rcompany.toLowerCase()){
+            for(var x = 0;x<dreamCompanies.length;x++){
+                if(dreamCompanies[x].toLowerCase()===dreamCompany.toLowerCase()){
                     isExisting = true;
                     break;
                 }
             }
             if(!isExisting){
-                rcompanies.push(rcompany);
+                dreamCompanies.push(dreamCompany);
 
-                const rcompanyDiv = document.createElement('div');
-                rcompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
-                rcompanyDiv.innerHTML = `
-                    <span class="mx-2">${rcompany}</span><span class="bi-x-lg mx-2" id="rcompany${rcompanies.length-1}" onclick="removeCompany(this)"></span>
-                    <input type="hidden" value="${rcompany}" name="rcompanies[${rcompanies.length-1}]" required>
+                const dreamCompanyDiv = document.createElement('div');
+                dreamCompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                dreamCompanyDiv.innerHTML = `
+                    <span class="mx-2">${dreamCompany}</span><span class="bi-x-lg mx-2" id="dreamCompany${dreamCompanies.length-1}" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="${dreamCompany}" name="dreamCompanies[${dreamCompanies.length-1}]" required>
                 `;
-                rcompaniesDiv.appendChild(rcompanyDiv);
+                dreamCompaniesDiv.appendChild(dreamCompanyDiv);
             }
         }
-        rcompaniesInput.value = "";
-        console.log(rcompanies);
+        dreamCompaniesInput.value = "";
+        // console.log(dreamCompanies);
     }
 
     function removeCompany(element){
@@ -220,22 +236,20 @@
         grandParent.innerHTML = "";
 
         var id = element.id;
-        rcompanies.splice(id.charAt(id.length-1),1);
+        dreamCompanies.splice(id.charAt(id.length-1),1);
 
-        if(rcompanies.length){
-            for(var x = 0;x<rcompanies.length;x++){
-                const rcompanyDiv = document.createElement('div');
-                rcompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
-                rcompanyDiv.innerHTML = `
-                    <span class="mx-2">${rcompanies[x]}</span><span class="bi-x-lg mx-2" id="rcompany${x}" onclick="removeCompany(this)"></span>
-                    <input type="hidden" value="${rcompanies[x]}" data-validate="true" name="rcompanies[${x}]" required>
+        if(dreamCompanies.length){
+            for(var x = 0;x<dreamCompanies.length;x++){
+                const dreamCompanyDiv = document.createElement('div');
+                dreamCompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                dreamCompanyDiv.innerHTML = `
+                    <span class="mx-2">${dreamCompanies[x]}</span><span class="bi-x-lg mx-2" id="dreamCompany${x}" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="${dreamCompanies[x]}" data-validate="true" name="dreamCompanies[${x}]" required>
                 `;
-                rcompaniesDiv.appendChild(rcompanyDiv);
+                dreamCompaniesDiv.appendChild(dreamCompanyDiv);
             }
-        }else{
-            // rcompaniesDiv.innerHTML=`<input type="hidden" data-validate="true" required>`;
         }
-        console.log(rcompanies);
+        // console.log(dreamCompanies);
     }
 
     const form = document.getElementById("userForm");
@@ -256,8 +270,8 @@
         if(skills.length === 0 && skillsInput.value !== "") {
             skills.push(skillsInput.value);
         }
-        if(rcompanies.length === 0 && rcompaniesInput.value !== "") {
-            rcompanies.push(rcompaniesInput.value);
+        if(dreamCompanies.length === 0 && dreamCompaniesInput.value !== "") {
+            dreamCompanies.push(dreamCompaniesInput.value);
         }
 
         var ski = [];
@@ -276,7 +290,7 @@
             title: title.value.trim(),
             linkedinURL: linkedinURL.value.trim(),
             degree: degree.value.trim(),
-            dreamCompany: rcompanies
+            dreamCompany: dreamCompanies
         }
 
         let emptyField = false;
@@ -292,11 +306,11 @@
         if(!emptyField && skills.length>0){
             console.log("IF")
             skillsInput.value=" ";
-            rcompaniesInput.value=" ";
+            dreamCompaniesInput.value=" ";
         }else{
             console.log("ELSE")
             document.getElementById("skills").setAttribute("required","true");
-            document.getElementById("rcompanies").setAttribute("required","true");
+            document.getElementById("dreamCompanies").setAttribute("required","true");
             return 
         }
         console.log(data)
@@ -322,8 +336,7 @@
         }
 
         document.getElementById("skills").setAttribute("required","false");
-        document.getElementById("rcompanies").setAttribute("required","false");       
+        document.getElementById("dreamCompanies").setAttribute("required","false");       
     }
-
-</script>
+ </script>
 <%-include('../partials/footer')%>
