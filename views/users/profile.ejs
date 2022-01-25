@@ -8,7 +8,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-sm-3">
-                <h6 class="mb-0">User Name</h6>
+                <h6 class="mb-0">Full Name</h6>
               </div>
               <div class="col-sm-9 text-secondary">
                 <%= user.name %>
@@ -23,13 +23,35 @@
                 <%= user.email %>
               </div>
             </div>
+            <% if(user.company){ %> 
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <h6 class="mb-0">Mobile</h6>
+                <h6 class="mb-0">Company</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                (320) 380-4539
+                <%= user.company %> 
+              </div>
+            </div>
+            <% } %> 
+            <% if(user.title){ %> 
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Title</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <%= user.title %> 
+                </div>
+              </div>
+            <% } %> 
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">College</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                <%= user.degree%>, <%= user.college %> 
               </div>
             </div>
             <hr>
