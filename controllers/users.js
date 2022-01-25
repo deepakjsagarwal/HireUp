@@ -14,17 +14,20 @@ module.exports.renderRegister = (req, res) => {
 }
 
 module.exports.register = async (req, res) => {
-    const { email, username, password, company, degree, linkedinURL, skills, dreamCompany } = req.body;
+    const { email, name, password,college, company, degree,title, linkedinURL, skills, dreamCompany } = req.body;
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async (userCredential) => {
             // Sign-In user and Add details about the user.
             var user = userCredential.user;
-            await db.collection('users').doc(user.uid).set({ name: username, company, degree, linkedinURL, skills, dreamCompany, email })
+            console.log("USERRRRRRRRRR")
+            await db.collection('users').doc(user.uid).set({ name, college,company, degree,title, linkedinURL, skills, dreamCompany, email })
             res.redirect('/main')
         })
         .catch((error) => {
             // An error happened.
+            console.log("ERROROROROROOR")
+            console.log("MESSAGE",error.message);
             req.flash('error', error.message);
             res.redirect('/register')
         });

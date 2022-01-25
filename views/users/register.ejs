@@ -4,13 +4,13 @@
 
     <form id="userForm"  class="row needs-validation" novalidate>
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="username">Username</label><input
-                class="form-control" type="text" id="username" name="username" required autofocus>
+            <label class="form-label" for="name">Name</label><input
+                class="form-control" type="text" id="name" name="name" required autofocus>
             <div class="valid-feedback">
                 Looks good!
             </div>
             <div class="invalid-feedback">
-                Please choose a username.
+                Please give your name.
             </div>
         </div>
         <div class="col-md-6 mb-3">
@@ -33,27 +33,7 @@
                 Please choose a password.
             </div>
         </div>
-        <div class="col-md-6 mb-3">
-            <label class="form-label" for="company">School/Company</label><input
-                class="form-control" type="text" id="company" name="company" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please choose a School/Company.
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <label class="form-label" for="degree">Degree/Title</label><input
-                class="form-control" type="text" id="degree" name="degree" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please choose a Degree/Title.
-            </div>
-        </div>
+        
         <div class="col-md-6 mb-3">
             <label class="form-label" for="linkedinURL">LinkedIn URL</label><input
                 class="form-control" type="text" id="linkedinURL" name="linkedinURL" required>
@@ -63,7 +43,38 @@
             <div class="invalid-feedback">
                 Please give your LinkedIn URL.
             </div>
-        </div>    
+        </div>  
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="college">School/College</label><input
+                class="form-control" type="text" id="college" name="college" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a School/College.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="company">Company</label><input
+                class="form-control" type="text" id="company" name="company">
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="degree">Degree</label><input
+                class="form-control" type="text" id="degree" name="degree" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a Degree.
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="title">Title</label><input
+                class="form-control" type="text" id="title" name="title">
+        </div>  
         
         <div class="row">
             <div class="col-md-6 mb-3" >
@@ -76,9 +87,6 @@
                         <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
                     </div>
                 </div>
-                <!-- <div class="valid-feedback">
-                    Looks good!
-                </div> -->
                 <div class="invalid-feedback">
                     Please choose a hobby.
                 </div>
@@ -94,19 +102,14 @@
                         <button class="btn btn-primary" type="button" onclick="addCompany()">Add</button>
                     </div>
                 </div>
-                <!-- <div class="valid-feedback">
-                    Looks good!
-                </div> -->
                 <div class="invalid-feedback">
                     Please choose a company.
                 </div>
             </div>
         </div>
         <div class="col-md-6" id="skillsDiv">
-            <!-- <input type="hidden" data-validate="true" required> -->
         </div>
         <div class="col-md-6" id="rcompaniesDiv">
-            <!-- <input type="hidden" data-validate="true" required> -->
         </div>
         
         <div class="col-12">
@@ -241,11 +244,13 @@
     async function register(e) {
         e.preventDefault();
         
-        const username  = document.getElementById("username");
+        const name  = document.getElementById("name");
         const email = document.getElementById("email");
         const password = document.getElementById("password");
         const company = document.getElementById("company");
         const degree = document.getElementById("degree");
+        const title = document.getElementById("title");
+        const college = document.getElementById("college");
         const linkedinURL = document.getElementById("linkedinURL");
         
         if(skills.length === 0 && skillsInput.value !== "") {
@@ -262,39 +267,36 @@
         }
 
         const data = {
-            username: username.value,
-            email: email.value,
+            name: name.value.trim(),
+            email: email.value.trim(),
             password: password.value,
             skills: ski,
-            company: company.value,
-            linkedinURL: linkedinURL.value,
-            degree: degree.value,
+            company: company.value.trim(),
+            college: college.value.trim(),
+            title: title.value.trim(),
+            linkedinURL: linkedinURL.value.trim(),
+            degree: degree.value.trim(),
             dreamCompany: rcompanies
         }
-        console.log(data)
 
         let emptyField = false;
 
         for (const property in data) {
             console.log(`${property}: ${data[property]}`);
-            if(Object.is(data[property], "")) emptyField = true;
-        }
+            if(property!=="company" && property!=="title"){
+                if(Object.is(data[property], "")) emptyField = true;
+            }
+        }        
+        console.log(emptyField);
 
-        console.log(emptyField)
-        
-        
         if(!emptyField && skills.length>0){
-            console.log("Inside if")
-            //clear the input values
-            // username.value = '';
-            // email.value = '';
-            // password.value = '';
+            console.log("IF")
             skillsInput.value=" ";
             rcompaniesInput.value=" ";
         }else{
-            console.log("Inside else")
+            console.log("ELSE")
             document.getElementById("skills").setAttribute("required","true");
-            ment.getElementById("rcompanies").setAttribute("required","true");
+            document.getElementById("rcompanies").setAttribute("required","true");
             return 
         }
         console.log(data)
