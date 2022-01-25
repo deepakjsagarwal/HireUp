@@ -3,31 +3,31 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    skills:[{
-        name:{
+    skills: [{
+        name: {
             type: String
         },
-        users:{
-            type:Schema.Types.ObjectId,
+        users: {
+            type: Schema.Types.ObjectId,
             ref: 'User'
         }
     }],
-    company:{
-        type:String
+    company: {
+        type: String
     },
-    linkedinURL:{
-        type:String
+    linkedinURL: {
+        type: String
     },
-    degree:{
-        type:String
+    degree: {
+        type: String
     },
-    dreamCompany:[{
-        type:String
+    dreamCompany: [{
+        type: String
     }]
 })
 
