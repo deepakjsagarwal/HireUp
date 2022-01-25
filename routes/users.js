@@ -23,4 +23,6 @@ router.get('/main', isLoggedIn, (req, res) => {
     res.render('main/index');
 })
 
+router.get('/like/:uid/:skillId',isLoggedIn,catchAsync(users.likeSkill))
+
 module.exports = router;

@@ -26,7 +26,7 @@ module.exports.register = async (req, res) => {
             
             await db.collection('users').doc(user.uid).set({ name, college,company, degree,title,linkedinURL, dreamCompanies, email })
             for(let skill of skills)
-                await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({});
+                await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
             
             res.redirect('/main')
         })
@@ -86,7 +86,6 @@ module.exports.profilePage = async (req, res,next) => {
         next();
     } else {
         const user = await makeUser(doc);
-        console.log(user);
         res.render('users/profile', { user })
     }
 }
@@ -119,9 +118,28 @@ async function makeUser (doc){
     const skills = [];
     const skillsSnapshot = await usersRef.doc(doc.id).collection('skills').get();
     skillsSnapshot.forEach(doc => {
-        skills.push(doc.id);
+        const usersLiked = doc.data().user;
+        skills.push({name:doc.id,liked:usersLiked.includes(firebase.auth().currentUser.uid),usersLikedlength:usersLiked.length});
     });
     
     const user = {...doc.data(),skills,uid:doc.id};
+    // console.log(user);
     return user;
+}
+
+module.exports.likeSkill = async(req,res)=>{
+    const {uid,skillId} = req.params;
+    const {alreadyLiked} = req.query;
+    if(alreadyLiked==="true"){
+        console.log("If ")
+        await usersRef.doc(uid).collection('skills').doc(skillId).update({
+            user: firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid)
+        });
+    }else{
+        console.log("Else ")
+        await usersRef.doc(uid).collection('skills').doc(skillId).update({
+            user: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
+        });
+    }
+    res.redirect('/all');
 }
