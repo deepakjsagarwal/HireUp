@@ -8,3 +8,12 @@ module.exports.isLoggedIn = (req,res,next)=>{
     }
     next();
 }
+
+module.exports.isUserVerified = (req,res,next)=>{
+    if(!firebase.auth().currentUser.emailVerified){
+        req.session.returnTo = req.originalUrl;
+        req.flash('error','You must verify your email.');
+        return res.redirect('/verification')
+    }
+    next();
+}

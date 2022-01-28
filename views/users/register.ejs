@@ -2,7 +2,7 @@
 <div class="container">
     <h1>Register</h1>
 
-    <form id="userForm"  class="row needs-validation" novalidate>
+    <form id="userForm" action="/register" method="POST" class="row needs-validation" novalidate>
         <div class="col-md-6 mb-3">
             <label class="form-label" for="name">Name</label><input
                 class="form-control" type="text" id="name" name="name" required autofocus>
@@ -88,7 +88,7 @@
                 <div class="col-md-12 d-flex">
                     <div class="col-md-10 me-2">
                         <!-- <input class="form-control" type="text" id="skills">          -->
-                        <select class="custom-select" id="skills" style="width:100%">    
+                        <select class="custom-select" id="skills" style="width:100%" onchange="addItem()">    
                             <option value="" selected>Choose Skill</option>
                             <% for(let skill of skills){ %>
                                     <option value="<%= skill %> "><%=skill%> </option>  
@@ -109,7 +109,7 @@
                 <div class="col-md-12 d-flex">
                     <div class="col-md-10 me-2">
                         <!-- <input class="form-control" type="text" id="dreamCompanies">   -->
-                        <select class="custom-select" id="dreamCompanies">    
+                        <select class="custom-select" id="dreamCompanies" onchange="addCompany()">    
                             <option value="" selected>Choose Company</option>
                             <% for(let company of companies){ %>
                                     <option value="<%= company %> "><%=company%> </option>  
@@ -173,7 +173,7 @@
             }
         }
         skillsInput.value = "";
-        // console.log(skills);
+        console.log(skills);
     }
 
     function removeItem(element){
@@ -195,7 +195,7 @@
                 skillsDiv.appendChild(skillDiv);
             }
         }
-        // console.log(skills);
+        console.log(skills);
     }
 
     function addCompany(){
@@ -227,7 +227,7 @@
             }
         }
         dreamCompaniesInput.value = "";
-        // console.log(dreamCompanies);
+        console.log(dreamCompanies);
     }
 
     function removeCompany(element){
@@ -249,14 +249,14 @@
                 dreamCompaniesDiv.appendChild(dreamCompanyDiv);
             }
         }
-        // console.log(dreamCompanies);
+        console.log(dreamCompanies);
     }
 
     const form = document.getElementById("userForm");
     form.addEventListener('submit', register);
 
-    async function register(e) {
-        e.preventDefault();
+    async function register() {
+        // e.preventDefault();
         
         const name  = document.getElementById("name");
         const email = document.getElementById("email");
@@ -265,14 +265,7 @@
         const degree = document.getElementById("degree");
         const title = document.getElementById("title");
         const college = document.getElementById("college");
-        const linkedinURL = document.getElementById("linkedinURL");
-        
-        if(skills.length === 0 && skillsInput.value !== "") {
-            skills.push(skillsInput.value);
-        }
-        if(dreamCompanies.length === 0 && dreamCompaniesInput.value !== "") {
-            dreamCompanies.push(dreamCompaniesInput.value);
-        }
+        const linkedinURL = document.getElementById("linkedinURL");         
 
         const data = {
             name: name.value.trim(),
@@ -287,6 +280,7 @@
             dreamCompanies: dreamCompanies
         }
 
+        console.log(data)
         let emptyField = false;
 
         for (const property in data) {
@@ -299,35 +293,36 @@
 
         if(!emptyField && skills.length>0){
             console.log("IF")
-            skillsInput.value=" ";
-            dreamCompaniesInput.value=" ";
+            form.submit();
         }else{
             console.log("ELSE")
             document.getElementById("skills").setAttribute("required","true");
             document.getElementById("dreamCompanies").setAttribute("required","true");
             return 
         }
-        console.log(data)
+        // console.log(data)
 
-        let res = await fetch('/register', {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' },
-            redirect: "follow"
-        }).then(async (response) => {
-            
-            if(response.redirected) {
-                return response
-            }
+        // let res = await fetch('/register', {
+        //     method: "POST",
+        //     body: JSON.stringify(data),
+        //     headers: { 'Content-Type': 'application/json' },
+        //     redirect: "follow"
+        // }).then(async (response) => {
+        //     console.log("response: ",response)
+        //     if(response.redirected) {
+        //         return response
+        //     }
 
-            const data = await response.json();
-            return { response, data }  //returning response && data from server back to res variable
-        }).catch((error) => { error });
-
-        if (res.redirected) { 
-            console.log("RES", res)
-            window.location.assign(res.url);
-        }
+        //     const data = await response.json();
+        //     console.log("response: ",response)
+        //     console.log("Data: ",data);
+        //     return { response, data }  //returning response && data from server back to res variable
+        // }).catch((error) => { console.log(error) });
+        // console.log("Res: ",res)
+        // if (res.redirected) { 
+        //     console.log("RES", res)
+        //     window.location.assign(res.url);
+        // }
 
         document.getElementById("skills").setAttribute("required","false");
         document.getElementById("dreamCompanies").setAttribute("required","false");       

@@ -3,7 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 
 const users = require('../controllers/users');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn,isUserVerified } = require('../middleware');
 
 router.route('/register')
     .get(users.renderRegister)
@@ -15,14 +15,16 @@ router.route('/login')
 
 router.get('/logout', users.logout)
 
-router.get('/profile/:uid', isLoggedIn, catchAsync(users.profilePage))
+router.get('/profile/:uid', isLoggedIn,isUserVerified, catchAsync(users.profilePage))
 
-router.get('/all', isLoggedIn, catchAsync(users.showUsers))
+router.get('/all', isLoggedIn, isUserVerified,catchAsync(users.showUsers))
 
-router.get('/main', isLoggedIn, (req, res) => {
+router.get('/main', isLoggedIn,isUserVerified, (req, res) => {
     res.render('main/index');
 })
 
-router.get('/like/:uid/:skillId',isLoggedIn,catchAsync(users.likeSkill))
+router.get('/verification',isLoggedIn,users.verificationPage)
+
+router.get('/like/:uid/:skillId',isLoggedIn,isUserVerified,catchAsync(users.likeSkill))
 
 module.exports = router;

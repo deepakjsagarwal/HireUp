@@ -24,16 +24,29 @@ module.exports.register = async (req, res) => {
             // Sign-In user and Add details about the user.
             var user = userCredential.user;
             
+            user.sendEmailVerification()
+            .then(() => {
+                // Email verification sent!
+                console.log("Verification sent");
+            })
+            .catch((error)=>{
+                console.log("Error: ",error);
+            });
+            
+            console.log("req.body ", req.body);
             await db.collection('users').doc(user.uid).set({ name, college,company, degree,title,linkedinURL, dreamCompanies, email })
             for(let skill of skills)
                 await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
             
-            res.redirect('/main')
+            firebase.auth().signOut()
+            .then(() => {
+                // Sign-out successful.
+                req.flash('success',"Verify your email and come back :)")
+                res.redirect('/');
+            })
         })
         .catch((error) => {
             // An error happened.
-            console.log("ERROROROROROOR")
-            console.log("MESSAGE",error.message);
             req.flash('error', error.message);
             res.redirect('/register')
         });
@@ -142,4 +155,12 @@ module.exports.likeSkill = async(req,res)=>{
         });
     }
     res.redirect('/all');
+}
+
+module.exports.verificationPage = (req,res)=>{
+    if(firebase.auth().currentUser.emailVerified){
+        res.redirect('/main')
+    }else{
+        res.render('main/verification')
+    }
 }
