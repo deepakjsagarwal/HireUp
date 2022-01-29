@@ -69,12 +69,14 @@
                   </span></a>
               </div>
             </div>
+            <% if(currentUser.uid === user.uid){ %> 
             <hr>
             <div class="row">
               <div class="col-sm-12">
                 <a class="btn btn-info " href="/edit">Edit</a>
               </div>
             </div>
+            <% } %> 
           </div>
         </div>
 

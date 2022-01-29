@@ -209,14 +209,13 @@ module.exports.renderEditForm = async (req,res)=>{
         next();
     } else {
         const user = await makeUser(doc);
-        console.log(user);
         res.render('users/edit', { user,skills,companies })
     }
 }
 
 module.exports.editProfile = async (req, res) => {
     const { name, college, company, degree,title, linkedinURL, skills, dreamCompanies,presentSkills } = req.body;
-    
+
     const user = firebase.auth().currentUser;
     user.updateProfile({
         displayName: name,
