@@ -1,31 +1,25 @@
-<%-include('../partials/header',{title: "Login"})%>
-<div class="container d-flex flex-column justify-content-center align-items-center mt-5">
-    <h5 class="card-title">Login</h5>
-    <form action="/login" method="POST" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-control" type="text" id="email" name="email" autofocus required>
-            <div class="valid-feedback">
-                Looks good!
+<%-include('../partials/header',{title: "Login" })%>
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+        <h3 class="card-title">Login</h3>
+        <form action="/login" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" type="text" id="email" name="email" autofocus required>
+                <div class="invalid-feedback">
+                    Please choose an email.
+                </div>
             </div>
-            <div class="invalid-feedback">
-                Please choose an email.
+            <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" type="password" id="password" name="password" required>
+                <div class="invalid-feedback">
+                    Please choose a password.
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="password">Password</label>
-            <input class="form-control" type="password" id="password" name="password" required>
-            <div class="valid-feedback">
-                Looks good!
+            <div class="mb-3 text-center">
+                <button class="btn btn-success btn-block">Login</button>
             </div>
-            <div class="invalid-feedback">
-                Please choose a password.
-            </div>
-        </div>
-        <div class="mb-3 text-center">
-            <button class="btn btn-success btn-block">Login</button>
-        </div>
-    </form>
-    <a href="/basicRegister">Don't have an Account</a>
-</div>
-<%-include('../partials/footer')%>
+        </form>
+        <p>New to HireUp? <a href="/basicRegister">Sign Up</a></p>
+    </div>
+    <%-include('../partials/footer')%>
