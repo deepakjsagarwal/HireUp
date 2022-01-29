@@ -1,30 +1,32 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" >
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/<%= (currentUser)? `main`: ``%>">HireUp</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav" >
-        <ul class="navbar-nav mt-0 me-auto" >
-        </ul>
-        <ul class="navbar-nav mt-0 me-0">
-            <% if(!currentUser){%>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/basicRegister">Sign Up</a>
-                </li>
-            <%}else{%>
-                <li class="nav-item">
-                    <a class="nav-link"><%=currentUser.displayName%></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Log Out</a>
-                </li>
-            <%}%>
-        </ul>
-      </div>
+        <a class="navbar-brand" href="/<%= (currentUser)? `main`: ``%>"><b>HireUp</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mt-0 me-auto"> </ul>
+            <ul class="navbar-nav mt-0 me-0">
+                <% if(!currentUser){%>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/basicRegister">Sign Up</a>
+                    </li>
+                    <%}else{%>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                <%=currentUser.displayName%>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Log Out</a>
+                        </li>
+                        <%}%>
+            </ul>
+        </div>
     </div>
-  </nav>
+</nav>
