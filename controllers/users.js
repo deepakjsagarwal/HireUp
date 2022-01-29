@@ -225,12 +225,15 @@ module.exports.editProfile = async (req, res) => {
     });
 
     await usersRef.doc(user.uid).update({college,company,degree,title,linkedinURL,dreamCompanies,name})
-    for(let presentSkill of presentSkills){
-        await usersRef.doc(user.uid).collection('skills').doc(presentSkill).delete();
+    if(presentSkills){
+        for(let presentSkill of presentSkills){
+            await usersRef.doc(user.uid).collection('skills').doc(presentSkill).delete();
+        }
     }
-    for(let skill of skills)
-        await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
-      
+    if(skills){
+        for(let skill of skills)
+            await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
+    }
     res.redirect(`/profile/${user.uid}`);
 }
 
