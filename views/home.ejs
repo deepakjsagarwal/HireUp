@@ -1,61 +1,96 @@
-<%-include("./partials/header",{title: "HireUp"}) %> 
-<link rel="stylesheet" href="/stylesheets/home.css">
+<%-include("./partials/header",{title: "HireUp" }) %>
+    <link rel="stylesheet" href="/stylesheets/home.css">
 
-<div class="mb-3 vh-100">
-    <div class="mb-3">
-        <h3>Get Referral to your Next Adventure ...</h3>
-        <select class="custom-select" id="inputGroupSelect1" onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">    
-        <option value="" selected>Choose Company</option>
-        <% for(let company of companies){ %>
-                <option value="<%= company %> "><%=company%> </option>  
-        <% } %> 
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <p class="lead"> We have made successful referrals to</p>  
-        <div>
-            <img class="img-fluid img-thumbnail" src="/images/google.jpg">
-            <img class="img-fluid img-thumbnail" src="/images/microsoft.jpg">
-            <img class="img-fluid img-thumbnail" src="/images/meta.jpg">
-            <img class="img-fluid img-thumbnail" src="/images/amazon.jpg">
-            <img class="img-fluid img-thumbnail" src="/images/twitter.jpg">
-            <img class="img-fluid img-thumbnail" src="/images/uber.jpg">
-            <img class="img-fluid img-thumbnail" src="/images/apple.jpg">
+    <div class="mb-3 ">
+        <div id="intro" class="view">
+            <div class="mask rgba-black-strong">
+                <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+                    <div class="row d-flex justify-content-center text-center">
+                        <div class="col-md-20">
+                            <h1 class="display-4 font-weight-bold white-text pt-5 mb-2">HireUp</h1>
+                            <hr class="hr-light">
+                            <h6 class="white-text">Backed by professionals at </h6>
+                            <div>
+                                <img class="img-fluid img-thumbnail" src="/images/google.jpg">
+                                <img class="img-fluid img-thumbnail" src="/images/microsoft.jpg">
+                                <img class="img-fluid img-thumbnail" src="/images/meta.jpg">
+                                <img class="img-fluid img-thumbnail" src="/images/amazon.jpg">
+                                <img class="img-fluid img-thumbnail" src="/images/twitter.jpg">
+                                <img class="img-fluid img-thumbnail" src="/images/uber.jpg">
+                                <img class="img-fluid img-thumbnail" src="/images/apple.jpg">
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect2"
+                                onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">
+                                <option value="" selected>And Many More ...</option>
+                                <% for(let company of companies){ %>
+                                    <option value="<%= company %>">
+                                        <%=company%>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>   
 
-<div class="container d-flex flex-column align-center vh-100">
-    <p class="lead"> How it works?</p>  
-    <ul class="description">
-        <li class="current">Create and complete your HireUp profile.</li>
-        <li class="current">Select companies you want to get referrals for.</li>
-        <li class="current">Employees from those companies discover your profile and refer you.</li>
-        <li class="current">Increase upvotes on your listed skills to stand out and get discovered faster.</li>
-    </ul>
-</div>    
-<div class="container d-flex flex-column align-center vh-100">
-    <div>
-        <p class="lead"> Where do you work?</p> 
-        <select class="custom-select" id="inputGroupSelect2" onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">    
-            <option value="" selected>Choose Company</option>
-            <% for(let company of companies){ %>
-                    <option value="<%= company %>"><%=company%> </option>  
-            <% } %> 
-        </select>
-    </div>
-    <div>
-        <p class="lead"> How it works for Referrers?</p>  
-        <ul class="description">
-            <li class="current">Discover talented candidates looking to join your company.</li>
-            <li class="current">Refer them to your company.</li>
-            <li class="current">Your company gets great talent and you get referral bonus. Win Win!!!</li>
-        </ul>
-    </div>
-</div>    
+    <br><br>
 
-<script>
-    document.querySelector("body").setAttribute("class","d-flex flex-column vh-100 text-center");
-</script>
-<%-include("./partials/footer")%>
+    <div class="row">
+        <div class="col-md-4 mb-5">
+            <i class="fa fa-key fa-4x orange-text"></i>
+            <h4 class="my-4 font-weight-bold">Unlocking Referrals</h4>
+            <p class="grey-text">Get referrals to your next adventure.</p>
+        </div>
+        <div class="col-md-4 mb-1">
+            <i class="fa fa-search fa-4x orange-text"></i>
+            <h4 class="my-4 font-weight-bold">Discovering Talent</h4>
+            <p class="grey-text">Dicover and refer awesome candidates to your company.</p>
+        </div>
+        <div class="col-md-4 mb-1">
+            <i class="fa fa-laptop fa-4x orange-text"></i>
+            <h4 class="my-4 font-weight-bold">Interview Prep</h4>
+            <p class="grey-text">Coming Soon!!!</p>
+        </div>
+    </div>
+
+    <hr class="hr-dark">
+
+    <div class="mb-3">
+        <h2>How it works?</h2>
+    </div>
+
+    <div class="float-container">
+        <div class="float-child">
+            <div class="mb-3">
+                <h4>For Referees</h4>
+            </div>
+            <ul class="description">
+                <li class="current">Create your HireUp profile.</li>
+                <li class="current">Select companies you want referrals for.</li>
+                <li class="current">Professionals discover your profile and refer you.</li>
+                <li class="current">Increase upvotes on your skills to stand out.</li>
+            </ul>
+        </div>
+        <div class="float-child">
+            <div class="mb-3">
+                <h4>For Referrers</h4>
+            </div>
+            <ul class="description">
+                <li class="current">Discover candidates looking to join your company.</li>
+                <li class="current">Refer them to your company.</li>
+                <li class="current">Your company gets great talent & you get referral bonus.</li>
+                <li class="current">Help candidates by upvoting their skills.</li>
+            </ul>
+        </div>
+    </div>
+
+    <a class="btn btn-primary" href="/basicRegister" role="button"> Get Started by Signing Up </a>
+
+    <br><br>
+
+    <script>
+        document.querySelector("body").setAttribute("class", "d-flex flex-column vh-100 text-center");
+    </script>
+    <%-include("./partials/footer")%>
