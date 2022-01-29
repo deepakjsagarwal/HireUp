@@ -12,44 +12,55 @@ const db = firebase.firestore();
 const usersRef = db.collection('users');
 
 // ---------- REGISTER ----------
+module.exports.renderBasicRegister = (req,res)=>{
+    res.render('users/basicRegister')
+}
 module.exports.renderRegister = (req, res) => {
     res.render('users/register', { companies,skills })
 }
+module.exports.basicRegister = async (req,res)=>{
+    const {name,email,password} = req.body;
 
-module.exports.register = async (req, res) => {
-    const { email, name, password,college, company, degree,title, linkedinURL, skills, dreamCompanies } = req.body;
-    
     firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(async (userCredential) => {
-            // Sign-In user and Add details about the user.
-            var user = userCredential.user;
-            
+    .then(async (userCredential) => {
+        // Sign-In user and Add details about the user.
+        var user = userCredential.user;
+                
+        user.updateProfile({
+            displayName: name,
+        }).then(() => {
+            // Update successful
             user.sendEmailVerification()
             .then(() => {
                 // Email verification sent!
                 console.log("Verification sent");
-            })
-            .catch((error)=>{
-                console.log("Error: ",error);
-            });
-            
-            console.log("req.body ", req.body);
-            await db.collection('users').doc(user.uid).set({ name, college,company, degree,title,linkedinURL, dreamCompanies, email })
-            for(let skill of skills)
-                await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
-            
-            firebase.auth().signOut()
-            .then(() => {
-                // Sign-out successful.
-                req.flash('success',"Verify your email and come back :)")
-                res.redirect('/');
-            })
+
+                //Logging out
+                firebase.auth().signOut()
+                .then(() => {
+                    // Sign-out successful.
+                    req.flash('success',"Verify your email and come back :)")
+                    res.redirect('/');
+                })
+            })           
         })
-        .catch((error) => {
-            // An error happened.
-            req.flash('error', error.message);
-            res.redirect('/register')
-        });
+    })
+    .catch((error) => {
+        // An error happened.
+        req.flash('error', error.message);
+        res.redirect('/basicRegister')
+    });
+}
+
+module.exports.register = async (req, res) => {
+    const { college, company, degree,title, linkedinURL, skills, dreamCompanies } = req.body;
+
+    const user = firebase.auth().currentUser;
+    await db.collection('users').doc(user.uid).set({college,company, degree,title,linkedinURL, dreamCompanies,name:user.displayName,email:user.email})
+    for(let skill of skills)
+        await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
+      
+    res.redirect('/main');
 }
 
 // ---------- LOGIN ----------
@@ -134,7 +145,6 @@ async function makeUser (doc){
         const usersLiked = doc.data().user;
         skills.push({name:doc.id,liked:usersLiked.includes(firebase.auth().currentUser.uid),usersLikedlength:usersLiked.length});
     });
-    
     const user = {...doc.data(),skills,uid:doc.id};
     // console.log(user);
     return user;
@@ -157,10 +167,35 @@ module.exports.likeSkill = async(req,res)=>{
     res.redirect('/all');
 }
 
+// -------- Verifications ----------------
 module.exports.verificationPage = (req,res)=>{
     if(firebase.auth().currentUser.emailVerified){
         res.redirect('/main')
     }else{
         res.render('main/verification')
     }
+}
+
+module.exports.verificationSend = (req,res)=>{
+    firebase.auth().currentUser.sendEmailVerification()
+    .then(() => {
+        // Email verification sent!
+        console.log("Verification sent");
+
+        //Logging out
+        firebase.auth().signOut()
+        .then(() => {
+            // Sign-out successful.
+            req.flash('success',"Verify your email and come back :)")
+            res.redirect('/');
+        })
+    })
+    .catch((error)=>{
+        firebase.auth().signOut()
+        .then(() => {
+            // Sign-out successful.
+        })
+        req.flash('error',error.message);
+        res.redirect('/')
+    })
 }

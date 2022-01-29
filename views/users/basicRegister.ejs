@@ -1,0 +1,43 @@
+<%-include('../partials/header',{title: "Register"})%>
+<div class="container">
+    <h1>Register</h1>
+
+    <form id="userForm" action="/basicRegister" method="POST" class="row needs-validation" novalidate>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="name">Name</label><input
+                class="form-control" type="text" id="name" name="name" required autofocus>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give your name.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="email">Email</label><input
+                class="form-control" type="email" id="email" name="email" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose an email.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="password">Password</label><input
+                class="form-control" type="password" id="password" name="password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a password.
+            </div>
+        </div>
+         
+        <div class="col-12">
+            <button type="submit" class="btn btn-success" >Register</button>
+        </div>
+    </form>
+</div>
+
+<%-include('../partials/footer')%>

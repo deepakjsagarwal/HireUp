@@ -13,11 +13,11 @@
                     <a class="nav-link" href="/login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/register">Sign Up</a>
+                    <a class="nav-link" href="/basicRegister">Sign Up</a>
                 </li>
             <%}else{%>
                 <li class="nav-item">
-                    <a class="nav-link"><%=currentUser.username%></a>
+                    <a class="nav-link"><%=currentUser.displayName%></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Log Out</a>

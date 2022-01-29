@@ -4,37 +4,6 @@
 
     <form id="userForm" action="/register" method="POST" class="row needs-validation" novalidate>
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="name">Name</label><input
-                class="form-control" type="text" id="name" name="name" required autofocus>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please give your name.
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label class="form-label" for="email">Email</label><input
-                class="form-control" type="email" id="email" name="email" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please choose an email.
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label class="form-label" for="password">Password</label><input
-                class="form-control" type="password" id="password" name="password" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please choose a password.
-            </div>
-        </div>
-        
-        <div class="col-md-6 mb-3">
             <label class="form-label" for="linkedinURL">LinkedIn URL</label><input
                 class="form-control" type="text" id="linkedinURL" name="linkedinURL" placeholder="https://www.linkedin.com/in/<username>" required>
             <div class="valid-feedback">
@@ -256,11 +225,7 @@
     form.addEventListener('submit', register);
 
     async function register() {
-        // e.preventDefault();
-        
-        const name  = document.getElementById("name");
-        const email = document.getElementById("email");
-        const password = document.getElementById("password");
+
         const company = document.getElementById("company");
         const degree = document.getElementById("degree");
         const title = document.getElementById("title");
@@ -268,9 +233,6 @@
         const linkedinURL = document.getElementById("linkedinURL");         
 
         const data = {
-            name: name.value.trim(),
-            email: email.value.trim(),
-            password: password.value,
             skills: skills,
             company: company.value.trim(),
             college: college.value.trim(),
@@ -300,29 +262,6 @@
             document.getElementById("dreamCompanies").setAttribute("required","true");
             return 
         }
-        // console.log(data)
-
-        // let res = await fetch('/register', {
-        //     method: "POST",
-        //     body: JSON.stringify(data),
-        //     headers: { 'Content-Type': 'application/json' },
-        //     redirect: "follow"
-        // }).then(async (response) => {
-        //     console.log("response: ",response)
-        //     if(response.redirected) {
-        //         return response
-        //     }
-
-        //     const data = await response.json();
-        //     console.log("response: ",response)
-        //     console.log("Data: ",data);
-        //     return { response, data }  //returning response && data from server back to res variable
-        // }).catch((error) => { console.log(error) });
-        // console.log("Res: ",res)
-        // if (res.redirected) { 
-        //     console.log("RES", res)
-        //     window.location.assign(res.url);
-        // }
 
         document.getElementById("skills").setAttribute("required","false");
         document.getElementById("dreamCompanies").setAttribute("required","false");       
