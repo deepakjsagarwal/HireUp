@@ -51,7 +51,16 @@
                 <h6 class="mb-0">College</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                <%= user.degree%>, <%= user.college %> 
+                <%= user.college %> 
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Degree</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                <%= user.degree%>
               </div>
             </div>
             <hr>
@@ -69,13 +78,25 @@
                   </span></a>
               </div>
             </div>
-            <% if(currentUser.uid === user.uid){ %> 
             <hr>
+            <% if(currentUser.uid === user.uid){ %> 
             <div class="row">
               <div class="col-sm-12">
                 <a class="btn btn-info " href="/edit">Edit</a>
               </div>
             </div>
+            <% } else if(!user.referredByUsers.includes(currentUser.uid)){ %>
+              <div class="row">
+                <div class="col-sm-12">
+                  <a class="btn btn-info " href="/refer/<%= user.uid%>">Refer Him</a>
+                </div>
+              </div>
+            <% }else{ %>
+              <div class="row">
+                <div class="col-sm-12">
+                  Already Refered
+                </div>
+              </div>
             <% } %> 
           </div>
         </div>
