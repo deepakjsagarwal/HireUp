@@ -56,7 +56,7 @@ module.exports.register = async (req, res) => {
     const { college, company, degree,title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = firebase.auth().currentUser;
-    await usersRef.doc(user.uid).set({college,company, degree,title,linkedinURL, dreamCompanies,name:user.displayName,email:user.email})
+    await usersRef.doc(user.uid).set({college,company, degree,title,linkedinURL, dreamCompanies,name:user.displayName,email:user.email,referredByUsers:[]})
     for(let skill of skills)
         await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
       
