@@ -38,4 +38,6 @@ router.route('/verification',isLoggedIn)
 
 router.get('/like/:uid/:skillId',isLoggedIn,isUserVerified,catchAsync(isProfileComplete),catchAsync(users.likeSkill))
 
+router.get('/refer/:uid',isLoggedIn,isUserVerified,catchAsync(isProfileComplete),catchAsync(users.referUser))
+
 module.exports = router;

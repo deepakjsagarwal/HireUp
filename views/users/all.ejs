@@ -270,6 +270,15 @@
                                         <span class="candidate-list-time order-1"><%=skill.name%> </span>
                                     </div>
                                 <% } %> 
+                                <% if(!user.referredByUsers.includes(currentUser.uid)){ %> 
+                                <div>
+                                    <a href="/refer/<%=user.uid%>" class="btn btn-success">Refer!</a>
+                                </div>
+                                <% }else{ %> 
+                                <div>
+                                    Already Refered!
+                                </div>
+                                <% } %> 
                             </div>
                         </div>
                     </div>

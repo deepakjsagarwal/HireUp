@@ -56,9 +56,9 @@ module.exports.register = async (req, res) => {
     const { college, company, degree,title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = firebase.auth().currentUser;
-    await db.collection('users').doc(user.uid).set({college,company, degree,title,linkedinURL, dreamCompanies,name:user.displayName,email:user.email})
+    await usersRef.doc(user.uid).set({college,company, degree,title,linkedinURL, dreamCompanies,name:user.displayName,email:user.email})
     for(let skill of skills)
-        await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
+        await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
       
     res.redirect('/main');
 }
@@ -110,7 +110,12 @@ module.exports.profilePage = async (req, res,next) => {
         next();
     } else {
         const user = await makeUser(doc);
-        res.render('users/profile', { user })
+        const interestedUsers = [];
+        for(let interestedUser of user.referredByUsers ){
+            const userDoc = await usersRef.doc(interestedUser).get();
+            interestedUsers.push(await makeUser(userDoc))
+        }
+        res.render('users/profile', { user , interestedUsers})
     }
 }
 
@@ -146,7 +151,7 @@ async function makeUser (doc){
         skills.push({name:doc.id,liked:usersLiked.includes(firebase.auth().currentUser.uid),usersLikedlength:usersLiked.length});
     });
     const user = {...doc.data(),skills,uid:doc.id};
-    // console.log(user);
+    //console.log(user);
     return user;
 }
 
@@ -154,12 +159,10 @@ module.exports.likeSkill = async(req,res)=>{
     const {uid,skillId} = req.params;
     const {alreadyLiked} = req.query;
     if(alreadyLiked==="true"){
-        console.log("If ")
         await usersRef.doc(uid).collection('skills').doc(skillId).update({
             user: firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid)
         });
     }else{
-        console.log("Else ")
         await usersRef.doc(uid).collection('skills').doc(skillId).update({
             user: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
         });
@@ -221,12 +224,26 @@ module.exports.editProfile = async (req, res) => {
         displayName: name,
     });
 
-    await db.collection('users').doc(user.uid).update({college,company,degree,title,linkedinURL,dreamCompanies,name})
+    await usersRef.doc(user.uid).update({college,company,degree,title,linkedinURL,dreamCompanies,name})
     for(let presentSkill of presentSkills){
-        await db.collection('users').doc(user.uid).collection('skills').doc(presentSkill).delete();
+        await usersRef.doc(user.uid).collection('skills').doc(presentSkill).delete();
     }
     for(let skill of skills)
-        await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
+        await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
       
     res.redirect(`/profile/${user.uid}`);
+}
+
+// ---------- REFER -------------
+module.exports.referUser = async (req,res)=>{
+    const currentUser = firebase.auth().currentUser;
+
+    const {uid} = req.params;
+
+    await usersRef.doc(uid).update({
+        referredByUsers : firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+    });
+
+    req.flash('success','Referred Successfully');
+    res.redirect('/all');
 }

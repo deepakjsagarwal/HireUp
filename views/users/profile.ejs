@@ -96,7 +96,7 @@
           <div class="col-sm-4 mb-3">
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i></h6>
+                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Dream Companies</i></h6>
                 <% for(let dreamCompany of user.dreamCompanies){ %>
                   <div>
                     <%= dreamCompany%>
@@ -108,10 +108,12 @@
           <div class="col-sm-4 mb-3">
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i></h6>
-                <div>
-                  Interested Users
-                </div>
+                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Interested Users</i></h6>
+                <% for(let interestedUser of interestedUsers){ %>
+                  <div>
+                    <a href="/profile/<%= interestedUser.uid %>"><%=interestedUser.name%></a>
+                  </div>
+                <% } %>
               </div>
             </div>
           </div>
