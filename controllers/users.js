@@ -148,7 +148,7 @@ async function makeUser (doc){
     const skillsSnapshot = await usersRef.doc(doc.id).collection('skills').get();
     skillsSnapshot.forEach(doc => {
         const usersLiked = doc.data().user;
-        skills.push({name:doc.id,liked:usersLiked.includes(firebase.auth().currentUser.uid),usersLikedlength:usersLiked.length});
+        skills.push({name:doc.id,liked:usersLiked.includes(firebase.auth().currentUser.uid),usersLikedLength:usersLiked.length});
     });
     const user = {...doc.data(),skills,uid:doc.id};
     //console.log(user);
