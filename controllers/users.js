@@ -31,10 +31,7 @@ module.exports.basicRegister = async (req, res) => {
                 // Update successful
                 user.sendEmailVerification()
                     .then(() => {
-                        // Email verification sent!
-                        console.log("Verification sent");
-
-                        //Logging out
+                        // Send verification link and log Out.
                         firebase.auth().signOut()
                             .then(() => {
                                 // Sign-out successful.
@@ -105,7 +102,6 @@ module.exports.profilePage = async (req, res, next) => {
 
     const doc = await usersRef.doc(uid).get();
     if (!doc.exists) {
-        console.log('No such document!');
         next();
     } else {
         const user = await makeUser(doc);
@@ -131,12 +127,10 @@ module.exports.showUsers = async (req, res, next) => {
 
             } else {
                 // doc.data() will be undefined in this case
-                console.log("No such document!");
                 next();
             }
         })
         .catch((error) => {
-            console.log("Error getting document:", error);
             req.flash('error', error.message)
             res.redirect('/main');
         });
@@ -150,7 +144,6 @@ async function makeUser(doc) {
         skills.push({ name: doc.id, liked: usersLiked.includes(firebase.auth().currentUser.uid), usersLikedLength: usersLiked.length });
     });
     const user = { ...doc.data(), skills, uid: doc.id };
-    //console.log(user);
     return user;
 }
 
@@ -181,10 +174,7 @@ module.exports.verificationPage = (req, res) => {
 module.exports.verificationSend = (req, res) => {
     firebase.auth().currentUser.sendEmailVerification()
         .then(() => {
-            // Email verification sent!
-            console.log("Verification sent");
-
-            //Logging out
+            // Send verification link and log Out.
             firebase.auth().signOut()
                 .then(() => {
                     // Sign-out successful.
@@ -207,7 +197,6 @@ module.exports.renderEditForm = async (req, res) => {
     const user = firebase.auth().currentUser;
     const doc = await usersRef.doc(user.uid).get();
     if (!doc.exists) {
-        console.log('No such document!');
         next();
     } else {
         const user = await makeUser(doc);
