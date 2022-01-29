@@ -1,0 +1,296 @@
+<%-include('../partials/header',{title: "Register"})%>
+<div class="container">
+    <h1>Register</h1>
+
+    <form id="userForm" action="/edit?_method=PUT" method="POST" class="row needs-validation" novalidate>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="name">Name</label><input
+                class="form-control" type="text" id="name" name="name" value="<%=user.name%>" required autofocus>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give your name.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="linkedinURL">LinkedIn URL</label><input
+                class="form-control" type="text" id="linkedinURL" name="linkedinURL" 
+                value="<%=user.linkedinURL%>" placeholder="https://www.linkedin.com/in/<username>" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give your LinkedIn URL.
+            </div>
+        </div>  
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="college">School/College</label><input
+                class="form-control" type="text" id="college" name="college" value="<%=user.college%>" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a School/College.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="company">Company</label>
+            <select class="custom-select" id="company" name="company">    
+                <option value="">Choose Company</option>
+                <% for(let company of companies){ %>
+                        <option value="<%= company %>" <%= (user.company.trim() === company.trim())? "selected" : "" %> >  <%=company%>   </option>  
+                <% } %> 
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="degree">Degree</label><input
+                class="form-control" type="text" id="degree" name="degree" value="<%=user.degree %>" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please choose a Degree.
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="title">Title</label><input
+                class="form-control" type="text" id="title" name="title" value="<%=user.title%>">
+        </div>  
+        
+        <div class="row">
+            <div class="col-md-6 mb-3" >
+                <label class="form-label" for="skills">Add more Skills</label>
+                <div class="col-md-12 d-flex">
+                    <div class="col-md-10 me-2">
+                        <!-- <input class="form-control" type="text" id="skills">          -->
+                        <select class="custom-select" id="skills" style="width:100%" onchange="addItem()">    
+                            <option value="" selected>Choose Skill</option>
+                            <% for(let skill of skills){ %>
+                                    <option value="<%= skill %> "><%=skill%> </option>  
+                            <% } %> 
+                        </select>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    Please choose a skill.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3" >
+                <label class="form-label" for="dreamCompanies">Refer Companies</label>
+                <div class="col-md-12 d-flex">
+                    <div class="col-md-10 me-2">
+                        <!-- <input class="form-control" type="text" id="dreamCompanies">   -->
+                        <select class="custom-select" id="dreamCompanies" onchange="addCompany()">    
+                            <option value="" selected>Choose Company</option>
+                            <% for(let company of companies){ %>
+                                    <option value="<%= company %> "><%=company%> </option>  
+                            <% } %> 
+                        </select>       
+                    </div>
+                    <div class="col-md-2 ">
+                        <button class="btn btn-primary" type="button" onclick="addCompany()">Add</button>
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    Please choose a company.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="skillsDiv">
+        </div>
+        <div class="col-md-6" id="dreamCompaniesDiv">
+            <% var j = -1; for(let dreamCompany of user.dreamCompanies){ j++;%> 
+                <div class="mb-3 mx-1 btn btn-info px-2">
+                    <span class="mx-2"><%= dreamCompany %> </span><span class="bi-x-lg mx-2" id="dreamCompanies<%=j%>" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="<%=dreamCompany%>" name="dreamCompanies[<%=j%>]" required>
+                </div>
+            <% } %>   
+        </div>
+        <div>
+            <% var i = -1; for(let skill of user.skills){ i++;%>
+                <div class="mb-3 mx-1 btn btn-info px-2"> 
+                    <span class="mx-2"><%= skill.name %> </span>
+                    <input type="checkbox" id="presentSkill[<%=i %>]" name="presentSkills[<%=i %>]" value="<%=skill.name%>">
+                    <label for="presentSkill[<%=i%>]">Delete?</label>
+                </div>
+            <% } %>             
+        </div>
+        
+        <div class="col-12">
+            <button type="submit" class="btn btn-success" >Register</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const skillsDiv = document.getElementById("skillsDiv");
+    const skillsInput = document.getElementById("skills");
+    var skills = [];
+    const dreamCompaniesDiv = document.getElementById("dreamCompaniesDiv");
+    const dreamCompaniesInput = document.getElementById("dreamCompanies");
+    var dreamCompanies = <%-JSON.stringify(user.dreamCompanies)%>;
+
+    function addItem(){
+        var skill = skillsInput.value;
+        if(skill && skill.trim()){
+
+            if(skills.length===0){
+                skillsDiv.innerHTML="";
+            }
+            skill = skill.trim();
+
+            var isExisting = false;
+            for(var x = 0;x<skills.length;x++){
+                if(skills[x].toLowerCase()===skill.toLowerCase()){
+                    isExisting = true;
+                    break;
+                }
+            }
+            if(!isExisting){
+                skills.push(skill);
+
+                const skillDiv = document.createElement('div');
+                skillDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                skillDiv.innerHTML = `
+                    <span class="mx-2">${skill}</span><span class="bi-x-lg mx-2" id="skill${skills.length-1}" onclick="removeItem(this)"></span>
+                    <input type="hidden" value="${skill}" name="skills[${skills.length-1}]" required>
+                `;
+                skillsDiv.appendChild(skillDiv);
+            }
+        }
+        skillsInput.value = "";
+        console.log(skills);
+    }
+
+    function removeItem(element){
+        var parent = element.parentNode;
+        var grandParent = parent.parentNode;
+        grandParent.innerHTML = "";
+
+        var id = element.id;
+        skills.splice(id.charAt(id.length-1),1);
+
+        if(skills.length){
+            for(var x = 0;x<skills.length;x++){
+                const skillDiv = document.createElement('div');
+                skillDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                skillDiv.innerHTML = `
+                    <span class="mx-2">${skills[x]}</span><span class="bi-x-lg mx-2" id="skill${x}" onclick="removeItem(this)"></span>
+                    <input type="hidden" value="${skills[x]}" data-validate="true" name="skills[${x}]" required>
+                `;
+                skillsDiv.appendChild(skillDiv);
+            }
+        }
+        console.log(skills);
+    }
+
+    function addCompany(){
+        var dreamCompany = dreamCompaniesInput.value;
+        if(dreamCompany && dreamCompany.trim()){
+
+            if(dreamCompanies.length===0){
+                dreamCompaniesDiv.innerHTML="";
+            }
+            dreamCompany = dreamCompany.trim();
+
+            var isExisting = false;
+            for(var x = 0;x<dreamCompanies.length;x++){
+                if(dreamCompanies[x].toLowerCase()===dreamCompany.toLowerCase()){
+                    isExisting = true;
+                    break;
+                }
+            }
+            if(!isExisting){
+                dreamCompanies.push(dreamCompany);
+
+                const dreamCompanyDiv = document.createElement('div');
+                dreamCompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                dreamCompanyDiv.innerHTML = `
+                    <span class="mx-2">${dreamCompany}</span><span class="bi-x-lg mx-2" id="dreamCompany${dreamCompanies.length-1}" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="${dreamCompany}" name="dreamCompanies[${dreamCompanies.length-1}]" required>
+                `;
+                dreamCompaniesDiv.appendChild(dreamCompanyDiv);
+            }
+        }
+        dreamCompaniesInput.value = "";
+        console.log(dreamCompanies);
+    }
+
+    function removeCompany(element){
+        var parent = element.parentNode;
+        var grandParent = parent.parentNode;
+        grandParent.innerHTML = "";
+
+        var id = element.id;
+        dreamCompanies.splice(id.charAt(id.length-1),1);
+
+        if(dreamCompanies.length){
+            for(var x = 0;x<dreamCompanies.length;x++){
+                const dreamCompanyDiv = document.createElement('div');
+                dreamCompanyDiv.setAttribute("class","mb-3 mx-1 btn btn-info px-2");
+                dreamCompanyDiv.innerHTML = `
+                    <span class="mx-2">${dreamCompanies[x]}</span><span class="bi-x-lg mx-2" id="dreamCompany${x}" onclick="removeCompany(this)"></span>
+                    <input type="hidden" value="${dreamCompanies[x]}" data-validate="true" name="dreamCompanies[${x}]" required>
+                `;
+                dreamCompaniesDiv.appendChild(dreamCompanyDiv);
+            }
+        }
+        console.log(dreamCompanies);
+    }
+
+    const form = document.getElementById("userForm");
+    form.addEventListener('submit', register);
+
+    async function register() {
+        const name = document.getElementById("name");
+        const company = document.getElementById("company");
+        const degree = document.getElementById("degree");
+        const title = document.getElementById("title");
+        const college = document.getElementById("college");
+        const linkedinURL = document.getElementById("linkedinURL");         
+
+        const data = {
+            name:name.value.trim(),
+            skills: skills,
+            company: company.value.trim(),
+            college: college.value.trim(),
+            title: title.value.trim(),
+            linkedinURL: linkedinURL.value.trim(),
+            degree: degree.value.trim(),
+            dreamCompanies: dreamCompanies
+        }
+
+        console.log(data)
+        let emptyField = false;
+
+        for (const property in data) {
+            console.log(`${property}: ${data[property]}`);
+            if(property!=="company" && property!=="title"){
+                if(Object.is(data[property], "")) emptyField = true;
+            }
+        }        
+        console.log(emptyField);
+
+        if(!emptyField && skills.length>0){
+            console.log("IF")
+            form.submit();
+        }else{
+            console.log("ELSE")
+            document.getElementById("skills").setAttribute("required","true");
+            document.getElementById("dreamCompanies").setAttribute("required","true");
+            return 
+        }
+
+        document.getElementById("skills").setAttribute("required","false");
+        document.getElementById("dreamCompanies").setAttribute("required","false");       
+    }
+ </script>
+<%-include('../partials/footer')%>

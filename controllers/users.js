@@ -199,3 +199,35 @@ module.exports.verificationSend = (req,res)=>{
         res.redirect('/')
     })
 }
+
+// ---------- Editing Profile ----------------
+module.exports.renderEditForm = async (req,res)=>{
+    const user = firebase.auth().currentUser;
+    const doc = await usersRef.doc(user.uid).get();
+    if (!doc.exists) {
+        console.log('No such document!');
+        next();
+    } else {
+        const user = await makeUser(doc);
+        console.log(user);
+        res.render('users/edit', { user,skills,companies })
+    }
+}
+
+module.exports.editProfile = async (req, res) => {
+    const { name, college, company, degree,title, linkedinURL, skills, dreamCompanies,presentSkills } = req.body;
+    
+    const user = firebase.auth().currentUser;
+    user.updateProfile({
+        displayName: name,
+    });
+
+    await db.collection('users').doc(user.uid).update({college,company,degree,title,linkedinURL,dreamCompanies,name})
+    for(let presentSkill of presentSkills){
+        await db.collection('users').doc(user.uid).collection('skills').doc(presentSkill).delete();
+    }
+    for(let skill of skills)
+        await db.collection('users').doc(user.uid).collection('skills').doc(skill).set({user:[]});
+      
+    res.redirect(`/profile/${user.uid}`);
+}

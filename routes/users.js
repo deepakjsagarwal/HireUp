@@ -14,6 +14,10 @@ router.route('/register',isLoggedIn,isUserVerified)
     .get(users.renderRegister)
     .post(catchAsync(users.register))
 
+router.route('/edit',isLoggedIn,isUserVerified,isProfileComplete)
+    .get(catchAsync(users.renderEditForm))
+    .put(catchAsync(users.editProfile))
+
 router.route('/login')
     .get(users.renderLogin)
     .post(users.login)
