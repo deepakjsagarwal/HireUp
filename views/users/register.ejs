@@ -30,7 +30,7 @@
             <select class="custom-select" id="company" name="company">    
                 <option value="" selected>Choose Company</option>
                 <% for(let company of companies){ %>
-                        <option value="<%= company %> "><%=company%> </option>  
+                        <option value="<%= company %>"> <%=company%> </option>  
                 <% } %> 
             </select>
         </div>
@@ -60,7 +60,7 @@
                         <select class="custom-select" id="skills" style="width:100%" onchange="addItem()">    
                             <option value="" selected>Choose Skill</option>
                             <% for(let skill of skills){ %>
-                                    <option value="<%= skill %> "><%=skill%> </option>  
+                                    <option value="<%= skill %>"><%=skill%> </option>  
                             <% } %> 
                         </select>
                     </div>
@@ -81,7 +81,7 @@
                         <select class="custom-select" id="dreamCompanies" onchange="addCompany()">    
                             <option value="" selected>Choose Company</option>
                             <% for(let company of companies){ %>
-                                    <option value="<%= company %> "><%=company%> </option>  
+                                    <option value="<%= company %>"> <%=company%> </option>  
                             <% } %> 
                         </select>       
                     </div>
@@ -142,7 +142,7 @@
             }
         }
         skillsInput.value = "";
-        console.log(skills);
+        // console.log(skills);
     }
 
     function removeItem(element){
@@ -164,7 +164,7 @@
                 skillsDiv.appendChild(skillDiv);
             }
         }
-        console.log(skills);
+        // console.log(skills);
     }
 
     function addCompany(){
@@ -196,7 +196,7 @@
             }
         }
         dreamCompaniesInput.value = "";
-        console.log(dreamCompanies);
+        // console.log(dreamCompanies);
     }
 
     function removeCompany(element){
@@ -218,7 +218,7 @@
                 dreamCompaniesDiv.appendChild(dreamCompanyDiv);
             }
         }
-        console.log(dreamCompanies);
+        // console.log(dreamCompanies);
     }
 
     const form = document.getElementById("userForm");
@@ -242,22 +242,22 @@
             dreamCompanies: dreamCompanies
         }
 
-        console.log(data)
+        // console.log(data)
         let emptyField = false;
 
         for (const property in data) {
-            console.log(`${property}: ${data[property]}`);
+            // console.log(`${property}: ${data[property]}`);
             if(property!=="company" && property!=="title"){
                 if(Object.is(data[property], "")) emptyField = true;
             }
         }        
-        console.log(emptyField);
+        // console.log(emptyField);
 
-        if(!emptyField && skills.length>0){
-            console.log("IF")
+        if(!emptyField && skills.length>0 && dreamCompanies.length>0){
+            // console.log("IF")
             form.submit();
         }else{
-            console.log("ELSE")
+            // console.log("ELSE")
             document.getElementById("skills").setAttribute("required","true");
             document.getElementById("dreamCompanies").setAttribute("required","true");
             return 
