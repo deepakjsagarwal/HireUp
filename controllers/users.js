@@ -1,5 +1,5 @@
 const { companies } = require('../public/javascripts/companies');
-const {skills} = require('../public/javascripts/skills')
+const { skills } = require('../public/javascripts/skills')
 
 // Initialize Firebase config.
 const firebase = require("firebase");
@@ -8,58 +8,57 @@ firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase Database.
 const db = firebase.firestore();
-
 const usersRef = db.collection('users');
 
 // ---------- REGISTER ----------
-module.exports.renderBasicRegister = (req,res)=>{
+module.exports.renderBasicRegister = (req, res) => {
     res.render('users/basicRegister')
 }
 module.exports.renderRegister = (req, res) => {
-    res.render('users/register', { companies,skills })
+    res.render('users/register', { companies, skills })
 }
-module.exports.basicRegister = async (req,res)=>{
-    const {name,email,password} = req.body;
+module.exports.basicRegister = async (req, res) => {
+    const { name, email, password } = req.body;
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(async (userCredential) => {
-        // Sign-In user and Add details about the user.
-        var user = userCredential.user;
-                
-        user.updateProfile({
-            displayName: name,
-        }).then(() => {
-            // Update successful
-            user.sendEmailVerification()
-            .then(() => {
-                // Email verification sent!
-                console.log("Verification sent");
+        .then(async (userCredential) => {
+            // Sign-In user and Add details about the user.
+            var user = userCredential.user;
 
-                //Logging out
-                firebase.auth().signOut()
-                .then(() => {
-                    // Sign-out successful.
-                    req.flash('success',"Verify your email and come back :)")
-                    res.redirect('/');
-                })
-            })           
+            user.updateProfile({
+                displayName: name,
+            }).then(() => {
+                // Update successful
+                user.sendEmailVerification()
+                    .then(() => {
+                        // Email verification sent!
+                        console.log("Verification sent");
+
+                        //Logging out
+                        firebase.auth().signOut()
+                            .then(() => {
+                                // Sign-out successful.
+                                req.flash('success', "Verification Link has been sent to your email. Please verify email before proceeding.")
+                                res.redirect('/');
+                            })
+                    })
+            })
         })
-    })
-    .catch((error) => {
-        // An error happened.
-        req.flash('error', error.message);
-        res.redirect('/basicRegister')
-    });
+        .catch((error) => {
+            // An error happened.
+            req.flash('error', error.message);
+            res.redirect('/basicRegister')
+        });
 }
 
 module.exports.register = async (req, res) => {
-    const { college, company, degree,title, linkedinURL, skills, dreamCompanies } = req.body;
+    const { college, company, degree, title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = firebase.auth().currentUser;
-    await usersRef.doc(user.uid).set({college,company, degree,title,linkedinURL, dreamCompanies,name:user.displayName,email:user.email,referredByUsers:[]})
-    for(let skill of skills)
-        await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
-      
+    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.displayName, email: user.email, referredByUsers: [] })
+    for (let skill of skills)
+        await usersRef.doc(user.uid).collection('skills').doc(skill).set({ user: [] });
+
     res.redirect('/main');
 }
 
@@ -101,7 +100,7 @@ module.exports.logout = (req, res) => {
 }
 
 // ---------- LOOKUPS ----------
-module.exports.profilePage = async (req, res,next) => {
+module.exports.profilePage = async (req, res, next) => {
     const uid = req.params.uid;
 
     const doc = await usersRef.doc(uid).get();
@@ -111,15 +110,15 @@ module.exports.profilePage = async (req, res,next) => {
     } else {
         const user = await makeUser(doc);
         const interestedUsers = [];
-        for(let interestedUser of user.referredByUsers ){
+        for (let interestedUser of user.referredByUsers) {
             const userDoc = await usersRef.doc(interestedUser).get();
             interestedUsers.push(await makeUser(userDoc))
         }
-        res.render('users/profile', { user , interestedUsers})
+        res.render('users/profile', { user, interestedUsers })
     }
 }
 
-module.exports.showUsers = async (req, res,next) => {
+module.exports.showUsers = async (req, res, next) => {
     const currentUser = firebase.auth().currentUser;
     await usersRef.doc(currentUser.uid).get()
         .then(async (doc) => {
@@ -127,8 +126,8 @@ module.exports.showUsers = async (req, res,next) => {
 
                 const user = doc.data();
                 const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', user.company).get();
-                const users = await Promise.all(usersDoc.docs.map((doc)=> makeUser(doc)));                
-                res.render("users/all",{users});
+                const users = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc)));
+                res.render("users/all", { users });
 
             } else {
                 // doc.data() will be undefined in this case
@@ -143,26 +142,26 @@ module.exports.showUsers = async (req, res,next) => {
         });
 }
 
-async function makeUser (doc){
+async function makeUser(doc) {
     const skills = [];
     const skillsSnapshot = await usersRef.doc(doc.id).collection('skills').get();
     skillsSnapshot.forEach(doc => {
         const usersLiked = doc.data().user;
-        skills.push({name:doc.id,liked:usersLiked.includes(firebase.auth().currentUser.uid),usersLikedLength:usersLiked.length});
+        skills.push({ name: doc.id, liked: usersLiked.includes(firebase.auth().currentUser.uid), usersLikedLength: usersLiked.length });
     });
-    const user = {...doc.data(),skills,uid:doc.id};
+    const user = { ...doc.data(), skills, uid: doc.id };
     //console.log(user);
     return user;
 }
 
-module.exports.likeSkill = async(req,res)=>{
-    const {uid,skillId} = req.params;
-    const {alreadyLiked} = req.query;
-    if(alreadyLiked==="true"){
+module.exports.likeSkill = async (req, res) => {
+    const { uid, skillId } = req.params;
+    const { alreadyLiked } = req.query;
+    if (alreadyLiked === "true") {
         await usersRef.doc(uid).collection('skills').doc(skillId).update({
             user: firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid)
         });
-    }else{
+    } else {
         await usersRef.doc(uid).collection('skills').doc(skillId).update({
             user: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
         });
@@ -171,40 +170,40 @@ module.exports.likeSkill = async(req,res)=>{
 }
 
 // -------- Verifications ----------------
-module.exports.verificationPage = (req,res)=>{
-    if(firebase.auth().currentUser.emailVerified){
+module.exports.verificationPage = (req, res) => {
+    if (firebase.auth().currentUser.emailVerified) {
         res.redirect('/main')
-    }else{
+    } else {
         res.render('main/verification')
     }
 }
 
-module.exports.verificationSend = (req,res)=>{
+module.exports.verificationSend = (req, res) => {
     firebase.auth().currentUser.sendEmailVerification()
-    .then(() => {
-        // Email verification sent!
-        console.log("Verification sent");
+        .then(() => {
+            // Email verification sent!
+            console.log("Verification sent");
 
-        //Logging out
-        firebase.auth().signOut()
-        .then(() => {
-            // Sign-out successful.
-            req.flash('success',"Verify your email and come back :)")
-            res.redirect('/');
+            //Logging out
+            firebase.auth().signOut()
+                .then(() => {
+                    // Sign-out successful.
+                    req.flash('success', "Verify your email and come back :)")
+                    res.redirect('/');
+                })
         })
-    })
-    .catch((error)=>{
-        firebase.auth().signOut()
-        .then(() => {
-            // Sign-out successful.
+        .catch((error) => {
+            firebase.auth().signOut()
+                .then(() => {
+                    // Sign-out successful.
+                })
+            req.flash('error', error.message);
+            res.redirect('/')
         })
-        req.flash('error',error.message);
-        res.redirect('/')
-    })
 }
 
 // ---------- Editing Profile ----------------
-module.exports.renderEditForm = async (req,res)=>{
+module.exports.renderEditForm = async (req, res) => {
     const user = firebase.auth().currentUser;
     const doc = await usersRef.doc(user.uid).get();
     if (!doc.exists) {
@@ -212,41 +211,41 @@ module.exports.renderEditForm = async (req,res)=>{
         next();
     } else {
         const user = await makeUser(doc);
-        res.render('users/edit', { user,skills,companies })
+        res.render('users/edit', { user, skills, companies })
     }
 }
 
 module.exports.editProfile = async (req, res) => {
-    const { name, college, company, degree,title, linkedinURL, skills, dreamCompanies,presentSkills } = req.body;
+    const { name, college, company, degree, title, linkedinURL, skills, dreamCompanies, presentSkills } = req.body;
 
     const user = firebase.auth().currentUser;
     user.updateProfile({
         displayName: name,
     });
 
-    await usersRef.doc(user.uid).update({college,company,degree,title,linkedinURL,dreamCompanies,name})
-    if(presentSkills){
-        for(let presentSkill of presentSkills){
+    await usersRef.doc(user.uid).update({ college, company, degree, title, linkedinURL, dreamCompanies, name })
+    if (presentSkills) {
+        for (let presentSkill of presentSkills) {
             await usersRef.doc(user.uid).collection('skills').doc(presentSkill).delete();
         }
     }
-    if(skills){
-        for(let skill of skills)
-            await usersRef.doc(user.uid).collection('skills').doc(skill).set({user:[]});
+    if (skills) {
+        for (let skill of skills)
+            await usersRef.doc(user.uid).collection('skills').doc(skill).set({ user: [] });
     }
     res.redirect(`/profile/${user.uid}`);
 }
 
 // ---------- REFER -------------
-module.exports.referUser = async (req,res)=>{
+module.exports.referUser = async (req, res) => {
     const currentUser = firebase.auth().currentUser;
 
-    const {uid} = req.params;
+    const { uid } = req.params;
 
     await usersRef.doc(uid).update({
-        referredByUsers : firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+        referredByUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
     });
 
-    req.flash('success','Referred Successfully');
+    req.flash('success', 'Referred Successfully');
     res.redirect('/all');
 }
