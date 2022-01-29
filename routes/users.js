@@ -10,13 +10,13 @@ router.route('/basicRegister')
     .get(users.renderBasicRegister)
     .post(catchAsync(users.basicRegister))
 
-router.route('/register',isLoggedIn,isUserVerified)
-    .get(users.renderRegister)
-    .post(catchAsync(users.register))
+router.route('/register')
+    .get(isLoggedIn,isUserVerified,users.renderRegister)
+    .post(isLoggedIn,isUserVerified,catchAsync(users.register))
 
-router.route('/edit',isLoggedIn,isUserVerified,isProfileComplete)
-    .get(catchAsync(users.renderEditForm))
-    .put(catchAsync(users.editProfile))
+router.route('/edit')
+    .get(isLoggedIn,isUserVerified,catchAsync(isProfileComplete),catchAsync(users.renderEditForm))
+    .put(isLoggedIn,isUserVerified,catchAsync(isProfileComplete),catchAsync(users.editProfile))
 
 router.route('/login')
     .get(users.renderLogin)
@@ -32,9 +32,9 @@ router.get('/main', isLoggedIn,isUserVerified,catchAsync(isProfileComplete), (re
     res.render('main/index');
 })
 
-router.route('/verification',isLoggedIn)
-    .get(users.verificationPage)
-    .post(users.verificationSend)
+router.route('/verification')
+    .get(isLoggedIn,users.verificationPage)
+    .post(isLoggedIn,users.verificationSend)
 
 router.get('/like/:uid/:skillId',isLoggedIn,isUserVerified,catchAsync(isProfileComplete),catchAsync(users.likeSkill))
 
