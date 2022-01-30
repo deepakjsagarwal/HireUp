@@ -1,8 +1,8 @@
-<%-include('../partials/header',{title: "Register" })%>
+<%-include('../partials/header',{title: "Profile Details" })%>
     <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
         <h3 class="card-title">Profile Details</h3>
         <form id="userForm" action="/register" method="POST" class="column needs-validation" novalidate>
-            <div class="col-md-10 mb-3">
+            <div class="col-md-50  mb-2">
                 <label class="form-label" for="linkedinURL">LinkedIn URL</label>
                 <input class="form-control" type="text" id="linkedinURL" name="linkedinURL"
                     placeholder="www.linkedin.com/in/<USERNAME>" autofocus required>
@@ -13,15 +13,15 @@
 
             <br>
 
-            <div class="col-md-10 mb-3">
+            <div class="col-md-50  mb-2">
                 <label class="form-label" for="degree">Highest Degree</label><input class="form-control" type="text"
                     id="degree" name="degree" autofocus required>
                 <div class="invalid-feedback">
                     Please enter Degree.
                 </div>
             </div>
-            <div class="col-md-10 mb-3">
-                <label class="form-label" for="college">School Name</label>
+            <div class="col-md-50  mb-2">
+                <label class="form-label" for="college">School</label>
                 <input class="form-control" type="text" id="college" name="college" autofocus required>
                 <div class="invalid-feedback">
                     Please enter School.
@@ -30,34 +30,32 @@
 
             <br>
 
-            <div class="col-md-10 mb-3">
-                <div class="row">
-                    <div class="col-md-5 mb-3">
-                        <label class="form-label" for="company">Company (If any)</label>
-                    </div>
-                    <div class="col-md-5 mb-3">
-                        <select class="custom-select" id="company" style="width:100%;" name="company">
-                            <option value="" selected>Choose Company</option>
-                            <% for(let company of companies){ %>
-                                <option value="<%= company %>">
-                                    <%=company%>
-                                </option>
-                                <% } %>
-                        </select>
-                    </div>
+            <div class="col-md-50  mb-2">
+                <div class="col-md-50  mb-2">
+                    <label class="form-label" for="company">Current Company (If any)</label>
+                </div>
+                <div class="col-md-50  mb-2">
+                    <select class="custom-select" id="company" style="width:100%;" name="company">
+                        <option value="" selected>Choose Company</option>
+                        <% for(let company of companies){ %>
+                            <option value="<%= company %>">
+                                <%=company%>
+                            </option>
+                            <% } %>
+                    </select>
                 </div>
             </div>
-            <div class="col-md-10 mb-3">
-                <label class="form-label" for="title">Title</label><input class="form-control" type="text" id="title"
-                    name="title" autofocus>
+            <div class="col-md-50  mb-2">
+                <label class="form-label" for="title">Job Title</label>
+                <input class="form-control" type="text" id="title" name="title" autofocus>
             </div>
 
             <br>
 
-            <div class="col-md-10 mb-3">
-                <label class="form-label" for="skills">Skills (Max 5)</label>
-                <div class="col-md-10 d-flex">
-                    <div class="col-md-10 mb-3 me-2">
+            <div class="col-md-50 mb-2">
+                <label class="form-label" for="skills">Your Skills (Max 5)</label>
+                <div class="col-md-50 d-flex">
+                    <div class="col-md-35 mb-2 me-2">
                         <select class="custom-select" id="skills" style="width:100%" onchange="addItem()">
                             <option value="" selected>Choose Skill</option>
                             <% for(let skill of skills){ %>
@@ -67,7 +65,7 @@
                                 <% } %>
                         </select>
                     </div>
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-10 mb-2">
                         <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
                     </div>
                 </div>
@@ -75,12 +73,12 @@
                     Please choose a skill.
                 </div>
             </div>
-            <div class="col-md-10" id="skillsDiv">
-            </div>
-            <div class="col-md-10 mb-3">
+            <div class="col-md-50" id="skillsDiv"></div>
+
+            <div class="col-md-50 mb-2">
                 <label class="form-label" for="dreamCompanies">Companies you want referral for, if so (max 5)</label>
-                <div class="col-md-10 d-flex">
-                    <div class="col-md-10 mb-3 me-2">
+                <div class="col-md-50 d-flex">
+                    <div class="col-md-35 mb-2 me-2">
                         <select class="custom-select" id="dreamCompanies" style="width:100%" onchange="addCompany()">
                             <option value="" selected>Choose Company</option>
                             <% for(let company of companies){ %>
@@ -90,7 +88,7 @@
                                 <% } %>
                         </select>
                     </div>
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-10 mb-2">
                         <button class="btn btn-primary" type="button" onclick="addCompany()">Add</button>
                     </div>
                 </div>
@@ -98,8 +96,7 @@
                     Please choose a company.
                 </div>
             </div>
-            <div class="col-md-10" id="dreamCompaniesDiv">
-            </div>
+            <div class="col-md-50" id="dreamCompaniesDiv"></div>
 
             <div class="col-12">
                 <button type="submit" class="btn btn-success">Complete Profile</button>
