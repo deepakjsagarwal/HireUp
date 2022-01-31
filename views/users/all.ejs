@@ -5,8 +5,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <div class="jumbotron">
         <p>
-            <b>Following candidates are looking for referrals at your company. Unlock their profiles to access details
-                and provide referral.
+            <b>
+                <% if((currentUser.company)){%>
+                    Following candidates are looking for referrals at your company. Unlock their profiles to access
+                    details and provide referral.
+                    <% }else{ %>
+                        Please enter your Current Company in your profile to be able to refer others.
+                        <% } %>
             </b>
         </p>
     </div>
@@ -78,7 +83,7 @@
                                             </div>
                                             <% }else{ %>
                                                 <div>
-                                                    Already Refered!
+                                                    Already Referred!
                                                 </div>
                                                 <% } %>
                                                     <br>
@@ -89,5 +94,6 @@
                         <% } %>
         </div>
     </div>
+
 
     <%-include('../partials/footer')%>
