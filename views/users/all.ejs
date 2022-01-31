@@ -6,93 +6,89 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <div class="jumbotron">
         <p>
-            <b>Following are the candidates looking for referrals at your company. Unlock the profiles you like to
-                access
-                details and provide referral.
+            <b>Following candidates are looking for referrals at your company. Unlock their profiles to access details
+                and provide referral.
             </b>
         </p>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <% for(let user of users){ %>
-                        <% if(user.uid!==currentUser.uid){%>
-                            <div class="col-sm-6 col-lg-3 mb-4">
-                                <div class="candidate-list candidate-grid">
-                                    <div class="candidate-list-details">
-                                        <div class="candidate-list-info">
-                                            <div class="candidate-list-title">
-                                                <h5><a href="/profile/<%= user.uid %>">
-                                                        <%= user.name%>
-                                                    </a></h5>
-                                            </div>
-                                            <div class="candidate-list-option">
-                                                <ul class="list-unstyled">
-                                                    <li>
-                                                        <%= user.title%>
-                                                    </li>
-                                                </ul>
-                                                <ul class="list-unstyled">
-                                                    <li>
-                                                        <%= user.company%>
-                                                    </li>
-                                                </ul>
-                                                <ul class="list-unstyled">
-                                                    <li>
-                                                        <%= user.degree%>
-                                                    </li>
-                                                </ul>
-                                                <ul class="list-unstyled">
-                                                    <li>
-                                                        <%= user.college%>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <% for(let skill of user.skills){ %>
-                                            <div class="candidate-list-favourite-time">
-                                                <a class="candidate-list-favourite order-2"
-                                                    href="/like/<%= user.uid%>/<%=skill.name %>?alreadyLiked=<%= skill.liked %>">
-                                                    <% if(!skill.liked){ %>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-arrow-up-circle"
-                                                            viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd"
-                                                                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
-                                                        </svg>
-                                                        <% }else{ %>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" fill="green"
-                                                                class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
-                                                            </svg>
-                                                            <% } %>
-                                                                <%=skill.usersLikedLength %>
-                                                </a>
-                                                <span class="candidate-list-time order-1">
-                                                    <%=skill.name%>
-                                                </span>
-                                            </div>
-                                            <% } %>
-                                                <% if(!user.referredByUsers.includes(currentUser.uid)){ %>
-                                                    <div>
-                                                        <a href="/refer/<%=user.uid%>"
-                                                            class="btn btn-success">Refer!</a>
-                                                    </div>
-                                                    <% }else{ %>
-                                                        <div>
-                                                            Already Refered!
-                                                        </div>
-                                                        <% } %>
+            <% for(let user of users){ %>
+                <% if(user.uid!==currentUser.uid){%>
+                    <div class="col-sm-6 col-lg-3 mb-4">
+                        <div class="candidate-list candidate-grid">
+                            <div class="candidate-list-details">
+                                <div class="candidate-list-info">
+                                    <div class="candidate-list-title">
+                                        <h5><a href="/profile/<%= user.uid %>">
+                                                <%= user.name%>
+                                            </a></h5>
+                                    </div>
+                                    <div class="candidate-list-option">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <%= user.title%>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <%= user.company%>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <%= user.degree%>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <%= user.college%>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <% for(let skill of user.skills){ %>
+                                    <div class="candidate-list-favourite-time">
+                                        <a class="candidate-list-favourite order-2"
+                                            href="/like/<%= user.uid%>/<%=skill.name %>?alreadyLiked=<%= skill.liked %>">
+                                            <% if(!skill.liked){ %>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-arrow-up-circle"
+                                                    viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+                                                </svg>
+                                                <% }else{ %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="green" class="bi bi-arrow-up-circle-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+                                                    </svg>
+                                                    <% } %>
+                                                        <%=skill.usersLikedLength %>
+                                        </a>
+                                        <span class="candidate-list-time order-1">
+                                            <%=skill.name%>
+                                        </span>
+                                    </div>
+                                    <% } %>
+                                        <% if(!user.referredByUsers.includes(currentUser.uid)){ %>
+                                            <div>
+                                                <a href="/refer/<%=user.uid%>" class="btn btn-success">Refer!</a>
+                                            </div>
+                                            <% }else{ %>
+                                                <div>
+                                                    Already Refered!
+                                                </div>
+                                                <% } %>
                             </div>
-                            <% } %>
-                                <% } %>
-                </div>
-            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                        <% } %>
+
+
         </div>
     </div>
 
