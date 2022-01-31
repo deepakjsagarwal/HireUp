@@ -2,7 +2,7 @@
     <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
         <h3 class="card-title">Edit Profile</h3>
         <form id="userForm" action="/edit?_method=PUT" method="POST" class="row needs-validation" novalidate>
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="name">Name</label>
                 <input class="form-control" type="text" id="name" name="name" value="<%=user.name%>" required autofocus>
                 <div class="invalid-feedback">
@@ -11,7 +11,7 @@
             </div>
 
 
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="linkedinURL">LinkedIn URL</label>
                 <input class="form-control" type="text" id="linkedinURL" name="linkedinURL"
                     value="<%=user.linkedinURL%>" placeholder="https://www.linkedin.com/in/<username>" required>
@@ -22,7 +22,7 @@
 
             <br>
 
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="degree">Highest Degree</label>
                 <input class="form-control" type="text" id="degree" name="degree" value="<%=user.degree %>" required>
                 <div class="invalid-feedback">
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="college">School</label>
                 <input class="form-control" type="text" id="college" name="college" value="<%=user.college%>" required>
                 <div class="invalid-feedback">
@@ -40,7 +40,7 @@
 
             <br>
 
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="company">Current Company (If any)</label>
                 <select class="custom-select" id="company" style="width:100%" name="company">
                     <option value="">Choose Company</option>
@@ -52,19 +52,19 @@
                 </select>
             </div>
 
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="title">Job Title</label>
                 <input class="form-control" type="text" id="title" name="title" value="<%=user.title%>">
             </div>
 
             <br>
 
-            <div class="col-md-50  mb-2">
+            <div class="col-md-12  mb-2">
                 <label class="form-label" for="skills">Your Skills (max 5, You can add <span id="skillsCount">
                         <%= 5- user.skills.length %>
                     </span> more)</label>
-                <div class="col-md-50 d-flex">
-                    <div class="col-md-35 mb-2 me-2">
+                <div class="col-md-12 d-flex">
+                    <div class="ccol-md-8 mb-2 me-2">
                         <input type="text" list="skills-choice" id="skills" onchange="addItem()">
                         <datalist id="skills-choice">
                             <% for(let skill of skills){ %>
@@ -74,7 +74,7 @@
                                 <% } %>
                         </datalist>
                     </div>
-                    <div class="col-md-10 mb-2">
+                    <div class="col-md-3 mb-2">
                         <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
                     </div>
                 </div>
@@ -82,9 +82,9 @@
                     Please choose a skill.
                 </div>
             </div>
-            <div class="col-md-50" id="skillsDiv"> </div>
+            <div class="col-md-12" id="skillsDiv"> </div>
 
-            <div class="col-md-50">
+            <div class="col-md-12">
                 <div>
                     Warning! Deleting a skill will permanently delete upvotes on that skills as well.
                 </div>
@@ -100,9 +100,9 @@
                     <% } %>
             </div>
 
-            <div class="col-md-50 mb-2">
+            <div class="col-md-12 mb-2">
                 <label class="form-label" for="dreamCompanies">Companies you want referral for, if so (max 5)</label>
-                <div class="col-md-50 d-flex">
+                <div class="col-md-12 d-flex">
                     <select class="custom-select" id="dreamCompanies" style="width:100%" onchange="addCompany()">
                         <option value="" selected>Choose Company</option>
                         <% for(let company of companies){ %>
@@ -117,7 +117,7 @@
                 </div>
             </div>
 
-            <div class="col-md-50" id="dreamCompaniesDiv">
+            <div class="col-md-12" id="dreamCompaniesDiv">
                 <% var j=-1; for(let dreamCompany of user.dreamCompanies){ j++;%>
                     <div class="mb-3 mx-1 btn btn-info px-2">
                         <span class="mx-2">
