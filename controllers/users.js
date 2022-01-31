@@ -35,7 +35,7 @@ module.exports.basicRegister = async (req, res) => {
                         firebase.auth().signOut()
                             .then(() => {
                                 // Sign-out successful.
-                                req.flash('success', "Verification Link has been sent to your email. Please verify email before proceeding.")
+                                req.flash('success', "Verification Link has been sent to your email. Please verify email and login on HireUp.")
                                 res.redirect('/');
                             })
                     })
