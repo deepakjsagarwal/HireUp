@@ -126,36 +126,38 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-4 mb-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Companies you want
-                    Referral for.</i>
-                </h6>
-                <% for(let dreamCompany of user.dreamCompanies){ %>
-                  <div>
-                    <%= dreamCompany%>
-                  </div>
-                  <% } %>
+          <% if(currentUser.uid===user.uid){ %>
+            <div class="col-sm-4 mb-3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Companies you want
+                      Referral for.</i>
+                  </h6>
+                  <% for(let dreamCompany of user.dreamCompanies){ %>
+                    <div>
+                      <%= dreamCompany%>
+                    </div>
+                    <% } %>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-sm-4 mb-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Professionals who
-                    povided you Referrals.</i>
-                </h6>
-                <% for(let interestedUser of interestedUsers){ %>
-                  <div>
-                    <a href="/profile/<%= interestedUser.uid %>">
-                      <%=interestedUser.name%>
-                    </a>
-                  </div>
-                  <% } %>
+            <div class="col-sm-4 mb-3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Professionals who
+                      povided you Referrals.</i>
+                  </h6>
+                  <% for(let interestedUser of interestedUsers){ %>
+                    <div>
+                      <a href="/profile/<%= interestedUser.uid %>">
+                        <%=interestedUser.name%>
+                      </a>
+                    </div>
+                    <% } %>
+                </div>
               </div>
             </div>
-          </div>
+            <% } %>
         </div>
       </div>
     </div>
