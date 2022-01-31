@@ -56,7 +56,7 @@ module.exports.register = async (req, res) => {
     for (let skill of skills)
         await usersRef.doc(user.uid).collection('skills').doc(skill).set({ user: [] });
 
-    res.redirect('/main');
+    res.redirect(`/profile/${user.uid}`);
 }
 
 // ---------- LOGIN ----------
@@ -72,7 +72,7 @@ module.exports.login = (req, res) => {
             // Sign-in successful.
             const user = userCredential.user;
 
-            const redirectUrl = req.session.returnTo || '/main'
+            const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
             delete req.session.returnTo;
             res.redirect(redirectUrl)
         })
@@ -132,7 +132,7 @@ module.exports.showUsers = async (req, res, next) => {
         })
         .catch((error) => {
             req.flash('error', error.message)
-            res.redirect('/main');
+            res.redirect('/');
         });
 }
 
@@ -165,7 +165,7 @@ module.exports.likeSkill = async (req, res) => {
 // -------- Verifications ----------------
 module.exports.verificationPage = (req, res) => {
     if (firebase.auth().currentUser.emailVerified) {
-        res.redirect('/main')
+        res.redirect(`/profile/${firebase.auth().currentUser.uid}`)
     } else {
         res.render('main/verification')
     }

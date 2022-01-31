@@ -28,10 +28,6 @@ router.get('/profile/:uid', isLoggedIn,isUserVerified,catchAsync(isProfileComple
 
 router.get('/all', isLoggedIn, isUserVerified,catchAsync(isProfileComplete),catchAsync(users.showUsers))
 
-router.get('/main', isLoggedIn,isUserVerified,catchAsync(isProfileComplete), (req, res) => {
-    res.render('main/index');
-})
-
 router.route('/verification')
     .get(isLoggedIn,users.verificationPage)
     .post(isLoggedIn,users.verificationSend)
