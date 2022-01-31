@@ -1,6 +1,11 @@
 body{
     background:#F5F5F5;
 }
+.jumbotron {
+    padding-top: 20px !important;
+    padding-bottom: 10px !important;
+  }
+
 /* Candidate List */
 .candidate-list {
     background: #ffffff;
