@@ -36,4 +36,8 @@ router.get('/like/:uid/:skillId',isLoggedIn,isUserVerified,catchAsync(isProfileC
 
 router.get('/refer/:uid',isLoggedIn,isUserVerified,catchAsync(isProfileComplete),catchAsync(users.referUser))
 
+router.route('/forgotPassword')
+    .get(users.renderForgotPassword)
+    .post(users.forgotPassword)
+
 module.exports = router;

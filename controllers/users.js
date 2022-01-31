@@ -238,3 +238,25 @@ module.exports.referUser = async (req, res) => {
     req.flash('success', 'Referred Successfully');
     res.redirect('/all');
 }
+
+
+// --------- FORGOT PASSWORD --------
+
+module.exports.renderForgotPassword = (req,res)=>{
+    res.render('main/forgotPassword');
+}
+module.exports.forgotPassword = (req,res)=>{
+    const {email} = req.body;
+
+    firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+        // Password reset email sent!
+        req.flash('success',"Password Reset Link has been Sent.")
+        res.redirect('/login');
+
+    })
+    .catch((error) => {
+        req.flash('error',error.message)
+        res.redirect('/forgotPassword');
+    });
+}
