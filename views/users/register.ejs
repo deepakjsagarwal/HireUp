@@ -56,14 +56,14 @@
                 <label class="form-label" for="skills">Your Skills (Max 5)</label>
                 <div class="col-md-50 d-flex">
                     <div class="col-md-35 mb-2 me-2">
-                        <select class="custom-select" id="skills" style="width:100%" onchange="addItem()">
-                            <option value="" selected>Choose Skill</option>
+                        <input type="text" list="skills-choice" id="skills" onchange="addItem()">
+                        <datalist id="skills-choice">
                             <% for(let skill of skills){ %>
                                 <option value="<%= skill %>">
                                     <%=skill%>
                                 </option>
                                 <% } %>
-                        </select>
+                        </datalist>
                     </div>
                     <div class="col-md-10 mb-2">
                         <button class="btn btn-primary" type="button" onclick="addItem()">Add</button>
