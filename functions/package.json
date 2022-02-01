@@ -3,9 +3,22 @@
     "version": "1.0.0",
     "description": "Acing Job Referrals.",
     "main": "index.js",
+    "author": "Vishu Goyal",
+    "license": "ISC",
+    "private": true,
     "scripts": {
+        "lint": "",
+        "serve": "firebase emulators:start --only functions",
+        "shell": "firebase functions:shell",
+        "start": "npm run shell",
+        "deploy": "firebase deploy --only functions",
+        "logs": "firebase functions:log",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
+    "engines": {
+        "node": "16"
+    },
+
     "keywords": [
         "referral",
         "tech",
@@ -13,8 +26,6 @@
         "job",
         "hire"
     ],
-    "author": "Vishu Goyal",
-    "license": "ISC",
     "dependencies": {
         "bootstrap-icons": "^1.7.2",
         "connect-flash": "^0.1.1",

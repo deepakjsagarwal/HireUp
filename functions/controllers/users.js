@@ -17,11 +17,11 @@ module.exports.renderBasicRegister = (req, res) => {
 module.exports.renderRegister = (req, res) => {
     res.render('users/register', { companies, skills })
 }
-module.exports.basicRegister = async (req, res) => {
+module.exports.basicRegister = async(req, res) => {
     const { name, email, password } = req.body;
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(async (userCredential) => {
+        .then(async(userCredential) => {
             // Sign-In user and Add details about the user.
             var user = userCredential.user;
 
@@ -48,7 +48,7 @@ module.exports.basicRegister = async (req, res) => {
         });
 }
 
-module.exports.register = async (req, res) => {
+module.exports.register = async(req, res) => {
     const { college, company, degree, title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = firebase.auth().currentUser;
@@ -97,7 +97,7 @@ module.exports.logout = (req, res) => {
 }
 
 // ---------- LOOKUPS ----------
-module.exports.profilePage = async (req, res, next) => {
+module.exports.profilePage = async(req, res, next) => {
     const uid = req.params.uid;
 
     const doc = await usersRef.doc(uid).get();
@@ -114,21 +114,21 @@ module.exports.profilePage = async (req, res, next) => {
     }
 }
 
-module.exports.showUsers = async (req, res, next) => {
+module.exports.showUsers = async(req, res, next) => {
     var currentUser = firebase.auth().currentUser;
     await usersRef.doc(currentUser.uid).get()
-        .then(async (doc) => {
+        .then(async(doc) => {
             if (doc.exists) {
 
-                currentUser = {...doc.data(),uid:currentUser.uid};
+                currentUser = {...doc.data(), uid: currentUser.uid };
                 const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', currentUser.company).get();
                 const allUsersWithCurrentUserCompany = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc)));
 
                 const allNonReferredUserWithCurrentUserCompany = allUsersWithCurrentUserCompany.filter(
-                    user => user.referredByUsers.filter(u=>u.company===currentUser.company).length===0
+                    user => user.referredByUsers.filter(u => u.company === currentUser.company).length === 0
                 );
 
-                res.render("users/all", { users: allNonReferredUserWithCurrentUserCompany,currentUser});
+                res.render("users/all", { users: allNonReferredUserWithCurrentUserCompany, currentUser });
 
             } else {
                 // doc.data() will be undefined in this case
@@ -148,11 +148,11 @@ async function makeUser(doc) {
         const usersLiked = doc.data().user;
         skills.push({ name: doc.id, liked: usersLiked.includes(firebase.auth().currentUser.uid), usersLikedLength: usersLiked.length });
     });
-    const user = { ...doc.data(), skills, uid: doc.id };
+    const user = {...doc.data(), skills, uid: doc.id };
     return user;
 }
 
-module.exports.likeSkill = async (req, res) => {
+module.exports.likeSkill = async(req, res) => {
     const { uid, skillId } = req.params;
     const { alreadyLiked } = req.query;
     if (alreadyLiked === "true") {
@@ -198,7 +198,7 @@ module.exports.verificationSend = (req, res) => {
 }
 
 // ---------- Editing Profile ----------------
-module.exports.renderEditForm = async (req, res) => {
+module.exports.renderEditForm = async(req, res) => {
     const user = firebase.auth().currentUser;
     const doc = await usersRef.doc(user.uid).get();
     if (!doc.exists) {
@@ -209,7 +209,7 @@ module.exports.renderEditForm = async (req, res) => {
     }
 }
 
-module.exports.editProfile = async (req, res) => {
+module.exports.editProfile = async(req, res) => {
     const { name, college, company, degree, title, linkedinURL, skills, dreamCompanies, presentSkills } = req.body;
 
     const user = firebase.auth().currentUser;
@@ -231,13 +231,13 @@ module.exports.editProfile = async (req, res) => {
 }
 
 // ---------- REFER -------------
-module.exports.referUser = async (req, res) => {
-    const currentUserDoc = await usersRef.doc(firebase.auth().currentUser.uid).get(); 
+module.exports.referUser = async(req, res) => {
+    const currentUserDoc = await usersRef.doc(firebase.auth().currentUser.uid).get();
     const currentUser = await makeUser(currentUserDoc);
     const { uid } = req.params;
 
     await usersRef.doc(uid).update({
-        referredByUsers: firebase.firestore.FieldValue.arrayUnion({uid: currentUser.uid,company:currentUser.company})
+        referredByUsers: firebase.firestore.FieldValue.arrayUnion({ uid: currentUser.uid, company: currentUser.company })
     });
 
     req.flash('success', 'Referred Successfully');
@@ -247,21 +247,21 @@ module.exports.referUser = async (req, res) => {
 
 // --------- FORGOT PASSWORD --------
 
-module.exports.renderForgotPassword = (req,res)=>{
+module.exports.renderForgotPassword = (req, res) => {
     res.render('main/forgotPassword');
 }
-module.exports.forgotPassword = (req,res)=>{
-    const {email} = req.body;
+module.exports.forgotPassword = (req, res) => {
+    const { email } = req.body;
 
     firebase.auth().sendPasswordResetEmail(email)
-    .then(() => {
-        // Password reset email sent!
-        req.flash('success',"Password Reset Link has been Sent.")
-        res.redirect('/login');
+        .then(() => {
+            // Password reset email sent!
+            req.flash('success', "Password Reset Link has been Sent.")
+            res.redirect('/login');
 
-    })
-    .catch((error) => {
-        req.flash('error',error.message)
-        res.redirect('/forgotPassword');
-    });
+        })
+        .catch((error) => {
+            req.flash('error', error.message)
+            res.redirect('/forgotPassword');
+        });
 }

@@ -19,8 +19,7 @@
                                 <img class="img-fluid img-thumbnail" src="/images/uber.jpg">
                                 <img class="img-fluid img-thumbnail" src="/images/apple.jpg">
                             </div>
-                            <select class="custom-select" id="inputGroupSelect2"
-                                onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">
+                            <select class="custom-select" id="inputGroupSelect2" onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">
                                 <option value="" selected>And Many More ...</option>
                                 <% for(let company of companies){ %>
                                     <option value="<%= company %>">
