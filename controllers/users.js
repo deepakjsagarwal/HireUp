@@ -227,12 +227,12 @@ module.exports.editProfile = async (req, res) => {
 
 // ---------- REFER -------------
 module.exports.referUser = async (req, res) => {
-    const currentUser = firebase.auth().currentUser;
-
+    const currentUserDoc = await usersRef.doc(firebase.auth().currentUser.uid).get(); 
+    const currentUser = await makeUser(currentUserDoc);
     const { uid } = req.params;
 
     await usersRef.doc(uid).update({
-        referredByUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+        referredByUsers: firebase.firestore.FieldValue.arrayUnion({uid: currentUser.uid,company:currentUser.company})
     });
 
     req.flash('success', 'Referred Successfully');
