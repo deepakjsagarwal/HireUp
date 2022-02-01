@@ -77,16 +77,9 @@
                                         </span>
                                     </div>
                                     <% } %>
-                                        <% if(!user.referredByUsers.includes(currentUser.uid)){ %>
-                                            <div>
-                                                <a href="/refer/<%=user.uid%>" class="btn btn-success">Refer!</a>
-                                            </div>
-                                            <% }else{ %>
-                                                <div>
-                                                    Already Referred!
-                                                </div>
-                                                <% } %>
-                                                    <br>
+                                    <div>
+                                        <a href="/refer/<%=user.uid%>" class="btn btn-success">Refer!</a>
+                                    </div>
                             </div>
                         </div>
                     </div>

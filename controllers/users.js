@@ -115,15 +115,20 @@ module.exports.profilePage = async (req, res, next) => {
 }
 
 module.exports.showUsers = async (req, res, next) => {
-    const currentUser = firebase.auth().currentUser;
+    var currentUser = firebase.auth().currentUser;
     await usersRef.doc(currentUser.uid).get()
         .then(async (doc) => {
             if (doc.exists) {
 
-                const user = doc.data();
-                const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', user.company).get();
-                const users = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc)));
-                res.render("users/all", { users,currentUser:{...user,uid:currentUser.uid }});
+                currentUser = {...doc.data(),uid:currentUser.uid};
+                const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', currentUser.company).get();
+                const allUsersWithCurrentUserCompany = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc)));
+
+                const allNonReferredUserWithCurrentUserCompany = allUsersWithCurrentUserCompany.filter(
+                    user => user.referredByUsers.filter(u=>u.company===currentUser.company).length===0
+                );
+
+                res.render("users/all", { users: allNonReferredUserWithCurrentUserCompany,currentUser});
 
             } else {
                 // doc.data() will be undefined in this case
