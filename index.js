@@ -43,7 +43,7 @@ admin.initializeApp({
 app.use(session(sessionConfig))
 app.use(flash())
 
-app.use(async (req, res, next) => {
+app.use(async(req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error')
     res.locals.currentUser = firebase.auth().currentUser;
