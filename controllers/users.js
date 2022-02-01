@@ -123,7 +123,7 @@ module.exports.showUsers = async (req, res, next) => {
                 const user = doc.data();
                 const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', user.company).get();
                 const users = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc)));
-                res.render("users/all", { users });
+                res.render("users/all", { users,currentUser:{...user,uid:currentUser.uid }});
 
             } else {
                 // doc.data() will be undefined in this case
