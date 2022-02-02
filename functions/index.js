@@ -14,7 +14,6 @@ const serviceAccount = require("./serviceAccountKey.json");
 
 const app = express();
 
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
@@ -24,7 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://databaseName.firebaseio.com'
 });
 
 const sessionConfig = {
