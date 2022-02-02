@@ -145,9 +145,9 @@
 
         const dreamCompaniesDiv = document.getElementById("dreamCompaniesDiv");
         const dreamCompaniesInput = document.getElementById("dreamCompanies");
-        var dreamCompanies = <% -JSON.stringify(user.dreamCompanies) %>;
+        var dreamCompanies = <%-JSON.stringify(user.dreamCompanies) %>;
 
-        const skillsObjects = <% -JSON.stringify(user.skills) %>;
+        const skillsObjects = <%-JSON.stringify(user.skills) %>;
         var skillsCount = skillsObjects.length;
         const skillsCountSpan = document.getElementById("skillsCount")
 
