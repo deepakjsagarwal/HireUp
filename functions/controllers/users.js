@@ -10,6 +10,11 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const usersRef = db.collection('users');
 
+// ---------- HOME ----------
+module.exports.renderHome = (req, res) => {
+    res.render('home', { companies })
+}
+
 // ---------- REGISTER ----------
 module.exports.renderBasicRegister = (req, res) => {
     res.render('users/basicRegister')

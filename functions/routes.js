@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const catchAsync = require("../utils/catchAsync");
+const catchAsync = require("./utils/catchAsync");
 
-const users = require("../controllers/users");
-const {isLoggedIn, isUserVerified, isProfileComplete} = require("../middleware");
+const users = require("./controllers/users");
+const { isLoggedIn, isUserVerified, isProfileComplete } = require("./middleware");
 
+router.route("/home").get(users.renderHome);
 
 router.route("/basicRegister")
     .get(users.renderBasicRegister)

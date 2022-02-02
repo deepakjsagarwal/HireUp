@@ -7,8 +7,7 @@ const methodOverride = require('method-override');
 const session = require('express-session')
 const flash = require('connect-flash')
 const ExpressError = require('./utils/ExpressError');
-const userRoutes = require('./routes/users')
-const { companies } = require('./public/javascripts/companies');
+const routes = require('./routes')
 var cookieParser = require('cookie-parser');
 
 app.set('view engine', 'ejs')
@@ -51,12 +50,7 @@ app.use(async(req, res, next) => {
     next();
 })
 
-
-app.use('/', userRoutes)
-app.get('/', (req, res) => {
-    res.render('home', { companies });
-})
-
+app.use('/', routes)
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
