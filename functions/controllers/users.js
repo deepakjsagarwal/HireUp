@@ -177,7 +177,7 @@ module.exports.verificationPage = (req, res) => {
     if (firebase.auth().currentUser.emailVerified) {
         res.redirect(`/profile/${firebase.auth().currentUser.uid}`)
     } else {
-        res.render('main/verification')
+        res.render('users/verification')
     }
 }
 
@@ -253,7 +253,7 @@ module.exports.referUser = async(req, res) => {
 // --------- FORGOT PASSWORD --------
 
 module.exports.renderForgotPassword = (req, res) => {
-    res.render('main/forgotPassword');
+    res.render('users/forgotPassword');
 }
 module.exports.forgotPassword = (req, res) => {
     const { email } = req.body;
