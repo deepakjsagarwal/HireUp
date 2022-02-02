@@ -3,7 +3,7 @@
         <h3 class="card-title">Edit Profile</h3>
         <form id="userForm" action="/edit?_method=PUT" method="POST" class="row needs-validation" novalidate>
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="name">Name</label>
+                <label class="form-label" for="name">Name<span class="required">*</span></label>
                 <input class="form-control" type="text" id="name" name="name" value="<%=user.name%>" required autofocus>
                 <div class="invalid-feedback">
                     Please enter name.
@@ -12,9 +12,8 @@
 
 
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="linkedinURL">LinkedIn URL</label>
-                <input class="form-control" type="text" id="linkedinURL" name="linkedinURL"
-                    value="<%=user.linkedinURL%>" placeholder="https://www.linkedin.com/in/<username>" required>
+                <label class="form-label" for="linkedinURL">LinkedIn URL<span class="required">*</span></label>
+                <input class="form-control" type="text" id="linkedinURL" name="linkedinURL" value="<%=user.linkedinURL%>" placeholder="https://www.linkedin.com/in/<username>" required>
                 <div class="invalid-feedback">
                     Please enter LinkedIn URL.
                 </div>
@@ -23,7 +22,7 @@
             <br>
 
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="degree">Highest Degree</label>
+                <label class="form-label" for="degree">Highest Degree<span class="required">*</span></label>
                 <input class="form-control" type="text" id="degree" name="degree" value="<%=user.degree %>" required>
                 <div class="invalid-feedback">
                     Please enter Degree.
@@ -31,7 +30,7 @@
             </div>
 
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="college">School</label>
+                <label class="form-label" for="college">School<span class="required">*</span></label>
                 <input class="form-control" type="text" id="college" name="college" value="<%=user.college%>" required>
                 <div class="invalid-feedback">
                     Please enter School.
@@ -60,7 +59,7 @@
             <br>
 
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="skills">Your Skills (max 5, You can add <span id="skillsCount">
+                <label class="form-label" for="skills">Your Skills<span class="required">*</span> (max 5, You can add <span id="skillsCount">
                         <%= 5- user.skills.length %>
                     </span> more)</label>
                 <div class="col-md-12 d-flex">
@@ -93,8 +92,7 @@
                         <span class="mx-2">
                             <%= skill.name %>
                         </span>
-                        <input type="checkbox" id="presentSkill[<%=i %>]" name="presentSkills[<%=i %>]"
-                            value="<%=skill.name%>" onclick="calculate(this);">
+                        <input type="checkbox" id="presentSkill[<%=i %>]" name="presentSkills[<%=i %>]" value="<%=skill.name%>" onclick="calculate(this);">
                         <label for="presentSkill[<%=i%>]">Delete?</label>
                     </div>
                     <% } %>
@@ -122,8 +120,7 @@
                     <div class="mb-3 mx-1 btn btn-info px-2">
                         <span class="mx-2">
                             <%= dreamCompany %>
-                        </span><span class="bi-x-lg mx-2" id="dreamCompanies<%=j%>"
-                            onclick="removeCompany(this)"></span>
+                        </span><span class="bi-x-lg mx-2" id="dreamCompanies<%=j%>" onclick="removeCompany(this)"></span>
                         <input type="hidden" value="<%=dreamCompany%>" name="dreamCompanies[<%=j%>]" required>
                     </div>
                     <% } %>

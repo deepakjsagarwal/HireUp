@@ -3,9 +3,8 @@
         <h3 class="card-title">Profile Details</h3>
         <form id="userForm" action="/register" method="POST" class="column needs-validation" novalidate>
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="linkedinURL">LinkedIn URL</label>
-                <input class="form-control" type="text" id="linkedinURL" name="linkedinURL"
-                    placeholder="www.linkedin.com/in/<USERNAME>" autofocus required>
+                <label class="form-label" for="linkedinURL">LinkedIn URL<span class="required">*</span></label>
+                <input class="form-control" type="text" id="linkedinURL" name="linkedinURL" placeholder="www.linkedin.com/in/<USERNAME>" autofocus required>
                 <div class="invalid-feedback">
                     Please enter LinkedIn URL.
                 </div>
@@ -14,14 +13,13 @@
             <br>
 
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="degree">Highest Degree</label><input class="form-control" type="text"
-                    id="degree" name="degree" autofocus required>
+                <label class="form-label" for="degree">Highest Degree<span class="required">*</span></label><input class="form-control" type="text" id="degree" name="degree" autofocus required>
                 <div class="invalid-feedback">
                     Please enter Degree.
                 </div>
             </div>
             <div class="col-md-12  mb-2">
-                <label class="form-label" for="college">School</label>
+                <label class="form-label" for="college">School<span class="required">*</span></label>
                 <input class="form-control" type="text" id="college" name="college" autofocus required>
                 <div class="invalid-feedback">
                     Please enter School.
@@ -53,7 +51,7 @@
             <br>
 
             <div class="col-md-12 mb-2">
-                <label class="form-label" for="skills">Your Skills (Max 5)</label>
+                <label class="form-label" for="skills">Your Skills<span class="required">*</span> (Max 5)</label>
                 <div class="col-md-12 d-flex">
                     <div class="col-md-7 mb-2 me-2">
                         <input type="text" list="skills-choice" id="skills" onchange="addItem()">
