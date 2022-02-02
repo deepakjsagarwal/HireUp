@@ -13,7 +13,7 @@ const routes = require('./routes');
 const serviceAccount = require("./serviceAccountKey.json");
 
 const app = express();
-app.use(flash());
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -35,7 +35,7 @@ admin.initializeApp({
 });
 
 app.use(session(sessionConfig));
-
+app.use(flash());
 
 app.use(async(req, res, next) => {
     res.locals.success = req.flash('success');
