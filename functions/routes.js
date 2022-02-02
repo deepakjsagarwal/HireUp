@@ -5,6 +5,7 @@ const catchAsync = require("./utils/catchAsync");
 const users = require("./controllers/users");
 const { isLoggedIn, isUserVerified, isProfileComplete } = require("./middleware");
 
+router.route("/").get(users.renderHome);
 router.route("/home").get(users.renderHome);
 
 router.route("/basicRegister")
