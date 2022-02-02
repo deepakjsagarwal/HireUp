@@ -1,14 +1,18 @@
 const functions = require('firebase-functions');
+const firebase = require("firebase");
+const admin = require("firebase-admin");
 const express = require('express');
-const app = express();
 const path = require('path');
-const PORT = 6060
 const methodOverride = require('method-override');
-const session = require('express-session')
-const flash = require('connect-flash')
+const session = require('express-session');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
+
 const ExpressError = require('./utils/ExpressError');
-const routes = require('./routes')
-var cookieParser = require('cookie-parser');
+const routes = require('./routes');
+const serviceAccount = require("./serviceAccountKey.json");
+
+const app = express();
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'));
@@ -18,22 +22,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser());
 
-const firebase = require("firebase");
-const db = firebase.firestore();
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
-
 const sessionConfig = {
     name: 'session',
     secret: 'thisshouldbeabettersecret',
     resave: false,
     saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        //  secure: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
 }
 
 admin.initializeApp({
@@ -62,8 +55,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 })
 
-app.listen(PORT, () => {
-    console.log("Server is running on PORT", PORT)
+app.listen(6060, () => {
+    console.log("Server is running on 6060")
 })
 
 exports.app = functions.https.onRequest(app);
