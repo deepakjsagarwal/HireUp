@@ -23,16 +23,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-const sessionConfig = {
-    name: 'session',
-    secret: 'thisshouldbeabettersecret',
-    resave: false,
-    saveUninitialized: true,
-}
-
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
+
+const sessionConfig = {
+    name: '_session',
+    secret: 'thisshouldbeabettersecret',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 60000,
+        secure: false,
+        httpOnly: false
+    }
+}
 
 app.use(session(sessionConfig));
 app.use(flash());
