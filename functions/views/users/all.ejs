@@ -50,7 +50,7 @@
                                         <span class="candidate-list-time order-1">
                                             <%=skill.name%>
                                         </span>
-                                        <a class="candidate-list-favourite order-2" href="/like/<%= user.uid%>/<%=skill.name %>?alreadyLiked=<%= skill.liked %>">
+                                        <a class="candidate-list-favourite order-2" href="/like/<%= user.uid%>/<%=skill.name %>?alreadyLiked=<%= skill.liked %>" style="text-decoration: none">
                                             <% if(!skill.liked){ %>
                                                 <i class="far fa-thumbs-up"></i>
                                                 <% }else{ %>
