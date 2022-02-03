@@ -9,7 +9,7 @@
                         <div class="col-md-20">
                             <h1 class="display-4 font-weight-bold white-text pt-5 mb-2">HireUp</h1>
                             <hr class="hr-light">
-                            <h6 class="white-text">Backed by professionals at </h6>
+                            <p class="grey-text">Backed by professionals at</p>
                             <div>
                                 <img class="img-fluid img-thumbnail" src="/images/google.jpg">
                                 <img class="img-fluid img-thumbnail" src="/images/microsoft.jpg">
@@ -19,14 +19,6 @@
                                 <img class="img-fluid img-thumbnail" src="/images/uber.jpg">
                                 <img class="img-fluid img-thumbnail" src="/images/apple.jpg">
                             </div>
-                            <select class="custom-select" id="inputGroupSelect2" onchange="this.options[this.selectedIndex].value &&(window.location = `/login`)">
-                                <option value="" selected>And Many More ...</option>
-                                <% for(let company of companies){ %>
-                                    <option value="<%= company %>">
-                                        <%=company%>
-                                    </option>
-                                    <% } %>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -37,25 +29,25 @@
     <br><br>
 
     <div class="row">
-        <div class="col-md-3 mb-5">
-            <i class="fa fa-key fa-4x orange-text"></i>
-            <h4 class="my-4 font-weight-bold">Unlocking Referrals</h4>
-            <p class="grey-text">Get referrals to your next adventure.</p>
+        <div class="col-md-3 mb-1">
+            <i class="fas fa-key fa-3x"></i>
+            <h4 class="my-4 font-weight-bold">Unlock Referrals</h4>
+            <p class="grey-text">Get referrals to your next company.</p>
         </div>
         <div class="col-md-3 mb-1">
-            <i class="fa fa-search fa-4x orange-text"></i>
-            <h4 class="my-4 font-weight-bold">Discovering Talent</h4>
+            <i class="fas fa-search fa-3x"></i>
+            <h4 class="my-4 font-weight-bold">Discover Candidates</h4>
             <p class="grey-text">Discover & refer top talent to your company.</p>
         </div>
         <div class="col-md-3 mb-1">
-            <i class="fa fa-thumbs-up fa-4x orange-text"></i>
+            <i class="fas fa-thumbs-up fa-3x"></i>
             <h4 class="my-4 font-weight-bold">Boost Profile</h4>
             <p class="grey-text">Get upvotes on your skills and stand out.</p>
         </div>
         <div class="col-md-3 mb-1">
-            <i class="fa fa-check fa-4x orange-text"></i>
+            <i class="fas fa-check fa-3x"></i>
             <h4 class="my-4 font-weight-bold">Professional Feedback</h4>
-            <p class="grey-text">Get feedback from Industry professionals. Coming Soon!!!</p>
+            <p class="grey-text">Get feedback from Industry professionals.</p>
         </div>
     </div>
 
@@ -89,10 +81,6 @@
             </ul>
         </div>
     </div>
-
-    <a class="btn btn-primary" href="/basicRegister" role="button"> Get Started by Signing Up </a>
-
-    <br><br>
 
     <script>
         document.querySelector("body").setAttribute("class", "d-flex flex-column vh-100 text-center");
