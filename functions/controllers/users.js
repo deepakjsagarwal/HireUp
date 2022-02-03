@@ -15,6 +15,11 @@ module.exports.renderHome = (req, res) => {
     res.render('home', { companies })
 }
 
+// ---------- HOME ----------
+module.exports.renderFaq = (req, res) => {
+    res.render('faq')
+}
+
 // ---------- REGISTER ----------
 module.exports.renderBasicRegister = (req, res) => {
     res.render('users/basicRegister')

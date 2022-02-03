@@ -8,6 +8,8 @@ const { isLoggedIn, isUserVerified, isProfileComplete } = require("./middleware"
 router.route("/").get(users.renderHome);
 router.route("/home").get(users.renderHome);
 
+router.route("/faq").get(users.renderFaq);
+
 router.route("/basicRegister")
     .get(users.renderBasicRegister)
     .post(catchAsync(users.basicRegister));
