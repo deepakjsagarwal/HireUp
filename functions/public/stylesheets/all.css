@@ -32,7 +32,6 @@ body {
 }
 
 .candidate-list:hover a.candidate-list-favourite {
-    color: #e74c3c;
     -webkit-box-shadow: -1px 4px 10px 1px rgba(24, 111, 201, 0.1);
     box-shadow: -1px 4px 10px 1px rgba(24, 111, 201, 0.1);
 }
@@ -90,19 +89,8 @@ body {
     height: 40px;
     width: 40px;
     line-height: 40px;
-    border: 1px solid #eeeeee;
     border-radius: 100%;
     text-align: center;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #646f79;
-}
-
-.candidate-list .candidate-list-favourite-time .candidate-list-favourite:hover {
-    background: #ffffff;
-    color: #e74c3c;
 }
 
 .candidate-banner .candidate-list:hover {
@@ -116,26 +104,14 @@ body {
 /* Candidate Grid */
 
 .candidate-list.candidate-grid {
-    padding: 0px;
+    padding: 1px;
     display: block;
-    border-bottom: none;
-}
-
-.candidate-grid .candidate-list-image {
-    text-align: center;
-    margin-right: 0px;
-}
-
-.candidate-grid .candidate-list-image img {
-    height: 150px;
-    width: 100%;
 }
 
 .candidate-grid .candidate-list-details {
     text-align: center;
-    padding: 20px 20px 0px 20px;
-    border: 1px solid #eeeeee;
-    border-top: none;
+    padding: 10px 10px 10px 10px;
+    border: 1px solid #808080;
 }
 
 .candidate-grid .candidate-list-details ul {
@@ -145,7 +121,7 @@ body {
 }
 
 .candidate-grid .candidate-list-details ul li {
-    margin: 2px 5px;
+    margin: 1px 1px;
 }
 
 .candidate-grid .candidate-list-favourite-time {
@@ -153,8 +129,7 @@ body {
     display: -ms-flexbox;
     display: flex;
     border-top: 1px solid #eeeeee;
-    margin-top: 10px;
-    padding: 10px 0;
+    padding: 1px 0;
 }
 
 .candidate-grid .candidate-list-favourite-time a {
@@ -171,10 +146,6 @@ body {
 
 .candidate-list.candidate-grid .candidate-list-favourite-time .candidate-list-favourite {
     margin-bottom: 0px;
-}
-
-.owl-carousel .candidate-list.candidate-grid {
-    margin-bottom: 20px;
 }
 
 
