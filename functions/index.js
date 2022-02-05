@@ -20,7 +20,7 @@ app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cookieParser());
+app.use(cookieParser('hireuptothemoon'));
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -28,8 +28,8 @@ admin.initializeApp({
 });
 
 const sessionConfig = {
-    name: '_session',
-    secret: 'thisshouldbeabettersecret',
+    name: '__session',
+    secret: 'hireuptothemoon',
     resave: true,
     saveUninitialized: true,
     cookie: {
