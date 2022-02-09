@@ -44,4 +44,8 @@ router.route("/forgotPassword")
     .get(users.renderForgotPassword)
     .post(users.forgotPassword);
 
+router.route('/upload')
+    .get(isLoggedIn,isUserVerified,catchAsync(isProfileComplete),users.renderUploadFile)
+    .post(isLoggedIn,isUserVerified,catchAsync(isProfileComplete),users.uploadFile)
+
 module.exports = router;
