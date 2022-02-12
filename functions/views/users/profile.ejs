@@ -98,6 +98,8 @@
                                 <% if(user.resume){ %> 
                                     <a href="<%=user.resume %>" target="_blank">See Resume</a>
                                 <% } %>
+                            </div>
+                            <div class="col-sm-3">
                                 <% if(currentUser.uid === user.uid){ %> 
                                     <% if(user.resume){ %> 
                                         <a href="/upload">Edit Resume</a>
