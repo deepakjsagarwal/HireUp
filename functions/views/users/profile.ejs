@@ -36,69 +36,73 @@
                                     <%= user.company %>
                                 </div>
                             </div>
-                            <% } %>
+                        <% } %>
 
-                                <% if(user.title){ %>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Job Title</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= user.title %>
-                                        </div>
-                                    </div>
-                                    <% } %>
+                        <% if(user.title){ %>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Job Title</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <%= user.title %>
+                                </div>
+                            </div>
+                        <% } %>
 
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">School</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <%= user.college %>
-                                            </div>
-                                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">School</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <%= user.college %>
+                            </div>
+                        </div>
 
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Degree</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <%= user.degree%>
-                                            </div>
-                                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Degree</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <%= user.degree%>
+                            </div>
+                        </div>
 
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0"><i class="fab fa-linkedin"></i> LinkedIn</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <a href="<%=user.linkedinURL%> "><span class="text-secondary">
-                            <%=user.linkedinURL%>
-                          </span></a>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <% if(currentUser.uid===user.uid){ %>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <a class="btn btn-info " href="/edit">Edit Profile</a>
-                                                </div>
-                                            </div>
-                                            <% } else if(!user.referredByUsers.includes(currentUser.uid)){ %>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <a class="btn btn-info " href="/refer/<%= user.uid%>">Refer Them</a>
-                                                    </div>
-                                                </div>
-                                                <% }else{ %>
-                                                    <div class="row">
-                                                        <div class="col-sm-12"> Already Referred! </div>
-                                                    </div>
-                                                    <% } %>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0"><i class="fab fa-linkedin"></i> LinkedIn</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <a href="<%=user.linkedinURL%> "><span class="text-secondary">
+                                    <%=user.linkedinURL%>
+                                </span></a>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <% if(currentUser.uid===user.uid){ %>                       
+                                    <a class="btn btn-info " href="/edit">Edit Profile</a>
+                                <% } else if(!user.referredByUsers.includes(currentUser.uid)){ %>
+                                    <a class="btn btn-info " href="/refer/<%= user.uid%>">Refer Them</a>                                
+                                <% }else{ %>
+                                    Already Referred!                         
+                                <% } %>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <% if(user.resume){ %> 
+                                    <a href="<%=user.resume %>" target="_blank">See Resume</a>
+                                <% } else if(currentUser.uid === user.uid){ %> 
+                                    <a href="/upload">Upload Resume</a>
+                                <% } %> 
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -119,7 +123,7 @@
                                             <%=skill.usersLikedLength %>
                                         </div>
                                     </div>
-                                    <% } %>
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -135,7 +139,7 @@
                                         <div>
                                             <%= dreamCompany%>
                                         </div>
-                                        <% } %>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -152,11 +156,11 @@
                                                 <%=interestedUser.name%>
                                             </a>
                                         </div>
-                                        <% } %>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
-                        <% } %>
+                    <% } %>
                 </div>
             </div>
         </div>
