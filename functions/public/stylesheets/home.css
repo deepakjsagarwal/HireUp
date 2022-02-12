@@ -23,7 +23,7 @@ img {
     height: 4rem;
 }
 
-ul {
+.row ul {
     list-style: none;
     margin: 50px;
     padding: 0;
@@ -31,13 +31,13 @@ ul {
     color: #999;
 }
 
-li.current {
+.row li.current {
     overflow: hidden;
     position: relative;
     padding: 0 0 10px 35px;
 }
 
-li.current::before {
+.row li.current::before {
     content: '';
     position: absolute;
     left: 9px;
@@ -48,11 +48,11 @@ li.current::before {
     border-width: 2px 0 0 2px;
 }
 
-li.current:last-child::before {
+.row li.current:last-child::before {
     border-width: 2px 0 0;
 }
 
-li.current::after {
+.row li.current::after {
     content: '';
     position: absolute;
     left: 0;
@@ -64,14 +64,14 @@ li.current::after {
     border-radius: 50%;
 }
 
-li.current {
+.row li.current {
     color: #000;
 }
 
-li.current::before {
+.row li.current::before {
     border-top-color: rgb(4, 112, 219);
 }
 
-li.current::after {
+.row li.current::after {
     border-color: rgb(4, 112, 219);
 }
