@@ -101,7 +101,7 @@
                                                     <div class="col-sm-2">
                                                         <% if(currentUser.uid===user.uid){ %>
                                                             <a class="btn btn-info " href="/edit">Edit Profile</a>
-                                                            <% } else if(!user.referredByUsers.includes(currentUser.uid)){ %>
+                                                            <% } else if(!(user.referredByUsers.some(u=>u.uid===currentUser.uid))){ %>
                                                                 <a class="btn btn-info " href="/refer/<%= user.uid%>">Refer Them</a>
                                                                 <% }else{ %>
                                                                     Already Referred!
