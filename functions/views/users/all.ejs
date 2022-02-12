@@ -15,36 +15,34 @@
                         <div class="candidate-list candidate-grid">
                             <div class="candidate-list-details">
                                 <div class="candidate-list-info">
-                                    <div class="candidate-list-title">
-                                        <h5>
-                                            <a href="/profile/<%= user.uid %>">
-                                                <%= user.name%>
-                                            </a>
-                                        </h5>
-                                    </div>
                                     <div class="candidate-list-option">
                                         <ul class="list-unstyled">
                                             <li>
+                                                <b>Job Title: </b>
                                                 <%= user.title%>
                                             </li>
                                         </ul>
                                         <ul class="list-unstyled">
                                             <li>
+                                                <b>Current Company: </b>
                                                 <%= user.company%>
                                             </li>
                                         </ul>
                                         <ul class="list-unstyled">
                                             <li>
+                                                <b>Degree: </b>
                                                 <%= user.degree%>
                                             </li>
                                         </ul>
                                         <ul class="list-unstyled">
                                             <li>
+                                                <b>School: </b>
                                                 <%= user.college%>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                                <br>
                                 <% for(let skill of user.skills){ %>
                                     <div class="candidate-list-favourite-time">
                                         <span class="candidate-list-time order-1">
