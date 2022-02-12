@@ -62,7 +62,7 @@ module.exports.register = async(req, res) => {
     const { college, company, degree, title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = firebase.auth().currentUser;
-    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.displayName, email: user.email, referredByUsers: [],referralsProvidedToUsers:[]})
+    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.displayName, email: user.email, referredByUsers: [], referralsProvidedToUsers: [] })
     for (let skill of skills)
         await usersRef.doc(user.uid).collection('skills').doc(skill).set({ user: [] });
 
@@ -127,7 +127,7 @@ module.exports.profilePage = async(req, res, next) => {
             referralsProvidedToUsers.push(await makeUser(userDoc))
         }
 
-        res.render('users/profile', { user, interestedUsers,referralsProvidedToUsers })
+        res.render('users/profile', { user, interestedUsers, referralsProvidedToUsers })
     }
 }
 
@@ -268,8 +268,8 @@ module.exports.referUser = async(req, res) => {
     await usersRef.doc(firebase.auth().currentUser.uid).update({
         referralsProvidedToUsers: firebase.firestore.FieldValue.arrayUnion({ uid, company: currentUser.company })
     })
-    req.flash('success', 'Referred Successfully');
-    res.redirect('/all');
+    req.flash('success', 'Thanks for Referring! Please use the following details for the referral.');
+    res.redirect(`/profile/${uid}`);
 }
 
 
