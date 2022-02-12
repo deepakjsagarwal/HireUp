@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="/stylesheets/all.css">
     <p>
         <% if(currentUser.company){%>
-            Following candidates are looking for referrals at your company. Unlock their profiles to access details and provide referral.
+            Following candidates are looking for referrals at your company. Unlock their profiles to access profile details and provide referral.
             <% }else{ %>
                 Please enter your Current Company in your profile to be able to refer others.
                 <% } %>
@@ -61,7 +61,7 @@
                                     </div>
                                     <% } %>
                                         <div>
-                                            <a href="/refer/<%=user.uid%>" class="btn btn-success">Refer!</a>
+                                            <a href="/refer/<%=user.uid%>" class="btn btn-success"><i class="fas fa-unlock-alt"></i> Unlock profile to refer!</a>
                                         </div>
                             </div>
                         </div>
