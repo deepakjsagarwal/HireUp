@@ -166,7 +166,7 @@ module.exports.likeSkill = async(req, res) => {
     const { uid, skillId } = req.params;
     const { alreadyLiked, red } = req.query;
     if (firebase.auth().currentUser.uid === uid) {
-        req.flash("error", "You can't like yourself. 😁")
+        req.flash("error", "That was smart! You can't like yourself. 😁")
         return res.redirect(`/profile/${firebase.auth().currentUser.uid}`);
     }
 
