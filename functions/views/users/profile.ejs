@@ -114,7 +114,7 @@
                 </div>
 
                 <div class="row gutters-sm">
-                    <div class="col-sm-4 mb-3">
+                    <div class="col-12 col-md-6 col-lg-3 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h6>
@@ -123,10 +123,10 @@
                                 <hr class="hr-light">
                                 <% for(let skill of user.skills){ %>
                                     <div class="row">
-                                        <div class="col-10">
+                                        <div class="col-9">
                                             <%=skill.name%>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <a href="/like/<%= user.uid%>/<%=skill.name %>?alreadyLiked=<%= skill.liked %>&red=<%=user.uid%>">
                                                 <i class="fas fa-thumbs-up"></i>
                                                 <%=skill.usersLikedLength %>
@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <% if(currentUser.uid===user.uid){ %>
-                        <div class="col-sm-4 mb-3">
+                        <div class="col-12 col-md-6 col-lg-3 mb-3">
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6>
@@ -153,7 +153,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 mb-3">
+                        <div class="col-12 col-md-6 col-lg-3 mb-3">
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6>
@@ -164,6 +164,23 @@
                                         <div>
                                             <a href="/profile/<%= interestedUser.uid %>">
                                                 <%=interestedUser.name%>
+                                            </a>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6>
+                                        <center>Referrals provided</center>
+                                    </h6>
+                                    <hr class="hr-light">
+                                    <% for(let providedUser of referralsProvidedToUsers){ %>
+                                        <div>
+                                            <a href="/profile/<%= providedUser.uid %>">
+                                                <%=providedUser.name%>
                                             </a>
                                         </div>
                                     <% } %>

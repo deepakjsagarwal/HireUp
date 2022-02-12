@@ -62,7 +62,7 @@ module.exports.register = async(req, res) => {
     const { college, company, degree, title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = firebase.auth().currentUser;
-    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.displayName, email: user.email, referredByUsers: [] })
+    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.displayName, email: user.email, referredByUsers: [],referralsProvidedToUsers:[]})
     for (let skill of skills)
         await usersRef.doc(user.uid).collection('skills').doc(skill).set({ user: [] });
 
@@ -117,10 +117,17 @@ module.exports.profilePage = async(req, res, next) => {
         const user = await makeUser(doc);
         const interestedUsers = [];
         for (let interestedUser of user.referredByUsers) {
-            const userDoc = await usersRef.doc(interestedUser).get();
+            const userDoc = await usersRef.doc(interestedUser.uid).get();
             interestedUsers.push(await makeUser(userDoc))
         }
-        res.render('users/profile', { user, interestedUsers })
+
+        const referralsProvidedToUsers = [];
+        for (let referralProvidedToUser of user.referralsProvidedToUsers) {
+            const userDoc = await usersRef.doc(referralProvidedToUser.uid).get();
+            referralsProvidedToUsers.push(await makeUser(userDoc))
+        }
+
+        res.render('users/profile', { user, interestedUsers,referralsProvidedToUsers })
     }
 }
 
@@ -251,13 +258,16 @@ module.exports.editProfile = async(req, res) => {
 // ---------- REFER -------------
 module.exports.referUser = async(req, res) => {
     const currentUserDoc = await usersRef.doc(firebase.auth().currentUser.uid).get();
+
     const currentUser = await makeUser(currentUserDoc);
     const { uid } = req.params;
 
     await usersRef.doc(uid).update({
         referredByUsers: firebase.firestore.FieldValue.arrayUnion({ uid: currentUser.uid, company: currentUser.company })
     });
-
+    await usersRef.doc(firebase.auth().currentUser.uid).update({
+        referralsProvidedToUsers: firebase.firestore.FieldValue.arrayUnion({ uid, company: currentUser.company })
+    })
     req.flash('success', 'Referred Successfully');
     res.redirect('/all');
 }
