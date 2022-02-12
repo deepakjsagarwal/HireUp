@@ -278,8 +278,15 @@ module.exports.forgotPassword = (req, res) => {
 
 // -------- UPLOAD RESUME -----------
 
-module.exports.renderUploadFile = (req,res)=>{
-    res.render('users/upload');
+module.exports.renderUploadFile = async (req,res)=>{
+    
+    const user = firebase.auth().currentUser;
+    const doc = await usersRef.doc(user.uid).get();
+    if(doc.data().resume){
+        res.render('users/upload',{edit:"true"});
+    }else{
+        res.render('users/upload',{edit:"false"});
+    }
 }
 
 module.exports.uploadFile = async (req,res)=>{

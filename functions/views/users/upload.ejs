@@ -1,15 +1,24 @@
 <%-include('../partials/header',{title: "Upload Resume" })%>
 <div>
-Upload Resume<br/>
-<form>
-<input type="file" id="files" multiple /><br /><br />
-<button id="send">Upload</button>
-<p id="uploading"></p>
-<progress value="0" max="100" id="progress"></progress>
-</form>
-<form action="/upload" method="post" id="urlForm">
     
-</form>
+    <% if(edit && edit==="true"){ %> 
+        Edit/Change Resume
+        <div>
+            NOTE: Editing the resume will delete the previous resume.
+        </div>
+    <% }else{ %>
+        Upload Resume
+    <% } %> 
+    <br/>
+    <form>
+        <input type="file" id="files" multiple /><br/><br/>
+        <button id="send">Upload</button>
+        <p id="uploading"></p>
+        <progress value="0" max="100" id="progress"></progress>
+    </form>
+    <form action="/upload" method="post" id="urlForm">
+        <!-- To contain the resume input  -->
+    </form>
 </div>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -38,7 +47,6 @@ const currentUserUID = <%-JSON.stringify(currentUser.uid)%>;
 var files = [];
 document.getElementById("files").addEventListener("change", function(e) {
     files = e.target.files[0];
-    console.log(files);
 });
 
 document.getElementById("send").addEventListener("click", function(e) {
@@ -75,15 +83,12 @@ async function getFileUrl(filename) {
     await storage
     .getDownloadURL()
     .then(function(url) {
-        console.log(url);
         document.getElementById("urlForm").innerHTML=`
         <input type="hidden"  name="resume" value="${url}">
         `;
         document.getElementById("urlForm").submit();
     })
     .catch(function(error) {
-        console.log(error.message);
-        console.log("error encountered");
     });
 }
 </script>
