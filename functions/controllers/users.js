@@ -164,7 +164,7 @@ async function makeUser(doc) {
 
 module.exports.likeSkill = async(req, res) => {
     const { uid, skillId } = req.params;
-    const { alreadyLiked } = req.query;
+    const { alreadyLiked,red } = req.query;
     if (alreadyLiked === "true") {
         await usersRef.doc(uid).collection('skills').doc(skillId).update({
             user: firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid)
@@ -173,6 +173,9 @@ module.exports.likeSkill = async(req, res) => {
         await usersRef.doc(uid).collection('skills').doc(skillId).update({
             user: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
         });
+    }
+    if(red){
+        return res.redirect(`/profile/${red}`)
     }
     res.redirect('/all');
 }
