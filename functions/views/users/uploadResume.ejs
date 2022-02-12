@@ -1,0 +1,86 @@
+<%-include('../partials/header',{title: "Upload Resume" })%>
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+        <h3 class="card-title">
+            <% if(edit && edit==="true"){ %>
+                Change Resume
+                <% }else{ %>
+                    Upload Resume
+                    <% } %>
+        </h3>
+        <br/>
+        <form>
+            <input type="file" id="files" multiple /><br/><br/>
+            <button class="btn btn-success btn-block" id="send">Upload</button>
+            <p id="uploading"></p>
+            <progress value="0" max="100" id="progress"></progress>
+        </form>
+        <form action="/uploadResume" method="post" id="urlForm">
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCuYpPF-Ge9Lksu18LgPUIH-F3cMSgzvBA",
+            authDomain: "hireupworks-d9868.firebaseapp.com",
+            projectId: "hireupworks-d9868",
+            storageBucket: "hireupworks-d9868.appspot.com",
+            messagingSenderId: "176847446825",
+            appId: "1:176847446825:web:e4522223838a149e260d38",
+            measurementId: "G-PRZ0JJXKC8",
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script>
+        const currentUserUID = <%-JSON.stringify(currentUser.uid)%>;
+
+        var files = [];
+        document.getElementById("files").addEventListener("change", function(e) {
+            files = e.target.files[0];
+        });
+
+        document.getElementById("send").addEventListener("click", function(e) {
+            e.preventDefault();
+            if (files) {
+                const storage = firebase.storage().ref(`resumes/${currentUserUID}`);
+                const upload = storage.put(files);
+                //update progress bar
+                upload.on(
+                    "state_changed",
+                    function progress(snapshot) {
+                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        document.getElementById("progress").value = percentage;
+                    },
+
+                    function error() {
+                        alert("Error uploading file");
+                    },
+
+                    async function complete() {
+                        document.getElementById("uploading").innerHTML += `${files.name} uploaded <br />`;
+                        await getFileUrl(currentUserUID);
+                    }
+                );
+            } else {
+                alert(" No file chosen");
+            }
+        });
+
+        async function getFileUrl(filename) {
+            //create a storage reference
+            var storage = firebase.storage().ref(`resumes/${filename}`);
+            //get file url
+            await storage
+                .getDownloadURL()
+                .then(function(url) {
+                    document.getElementById("urlForm").innerHTML = `
+        <input type="hidden"  name="resume" value="${url}">
+        `;
+                    document.getElementById("urlForm").submit();
+                })
+                .catch(function(error) {});
+        }
+    </script>
+    <%-include('../partials/footer')%>

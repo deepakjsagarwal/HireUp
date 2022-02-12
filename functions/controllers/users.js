@@ -164,9 +164,9 @@ async function makeUser(doc) {
 
 module.exports.likeSkill = async(req, res) => {
     const { uid, skillId } = req.params;
-    const { alreadyLiked,red } = req.query;
-    if(firebase.auth().currentUser.uid===uid){
-        req.flash("error","You can't like yourself. 😁")
+    const { alreadyLiked, red } = req.query;
+    if (firebase.auth().currentUser.uid === uid) {
+        req.flash("error", "You can't like yourself. 😁")
         return res.redirect(`/profile/${firebase.auth().currentUser.uid}`);
     }
 
@@ -179,7 +179,7 @@ module.exports.likeSkill = async(req, res) => {
             user: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
         });
     }
-    if(red){
+    if (red) {
         return res.redirect(`/profile/${red}`)
     }
     res.redirect('/all');
@@ -286,22 +286,21 @@ module.exports.forgotPassword = (req, res) => {
 
 // -------- UPLOAD RESUME -----------
 
-module.exports.renderUploadFile = async (req,res)=>{
-    
+module.exports.renderUploadFile = async(req, res) => {
     const user = firebase.auth().currentUser;
     const doc = await usersRef.doc(user.uid).get();
-    if(doc.data().resume){
-        res.render('users/upload',{edit:"true"});
-    }else{
-        res.render('users/upload',{edit:"false"});
+    if (doc.data().resume) {
+        res.render('users/uploadResume', { edit: "true" });
+    } else {
+        res.render('users/uploadResume', { edit: "false" });
     }
 }
 
-module.exports.uploadFile = async (req,res)=>{
-    const {resume} = req.body;
+module.exports.uploadFile = async(req, res) => {
+    const { resume } = req.body;
     const user = firebase.auth().currentUser;
 
-    await usersRef.doc(user.uid).update({resume});
+    await usersRef.doc(user.uid).update({ resume });
 
     res.redirect(`/profile/${user.uid}`);
 }
