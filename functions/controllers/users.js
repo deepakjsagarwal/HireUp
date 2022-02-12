@@ -288,5 +288,5 @@ module.exports.uploadFile = async (req,res)=>{
 
     await usersRef.doc(user.uid).update({resume});
 
-    res.send(resume);
+    res.redirect(`/profile/${user.uid}`);
 }
