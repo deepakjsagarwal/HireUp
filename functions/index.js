@@ -7,27 +7,26 @@ const flash = require('connect-flash');
 const path = require('path');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
-const ExpressError = require('./utils/ExpressError');
-const routes = require('./routes');
 const serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://hireupworks-d9868.firebaseio.com'
+});
 
 const app = express();
 
+app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(cookieParser('hireuptothemoon'));
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://databaseName.firebaseio.com'
-});
-
-const sessionConfig = {
+app.use(session({
     name: '__session',
     secret: 'hireuptothemoon',
     resave: true,
@@ -37,9 +36,8 @@ const sessionConfig = {
         secure: false,
         httpOnly: false
     }
-}
+}));
 
-app.use(session(sessionConfig));
 app.use(flash());
 
 app.use(async(req, res, next) => {
@@ -49,8 +47,10 @@ app.use(async(req, res, next) => {
     next();
 });
 
+const routes = require('./routes');
 app.use('/', routes);
 
+const ExpressError = require('./utils/ExpressError');
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
 });
