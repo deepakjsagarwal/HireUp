@@ -12,12 +12,12 @@ const usersRef = db.collection('users');
 
 // ---------- HOME ----------
 module.exports.renderHome = (req, res) => {
-    res.render('home', { companies })
+    res.render('home');
 }
 
 // ---------- HOME ----------
 module.exports.renderFaq = (req, res) => {
-    res.render('faq')
+    res.render('faq');
 }
 
 // ---------- REGISTER ----------
