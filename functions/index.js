@@ -61,8 +61,9 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-app.listen(6060, () => {
-    console.log("Server is running on 6060")
+const PORT = process.env.PORT || 6060;
+app.listen(PORT, () => {
+    console.log(`Listening on http://localhost:${PORT}`);
 });
 
 exports.app = functions.https.onRequest(app);
