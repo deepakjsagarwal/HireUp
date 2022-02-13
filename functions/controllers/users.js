@@ -77,6 +77,9 @@ module.exports.renderLogin = (req, res) => {
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
 
+    // As httpOnly cookies are to be used, do not persist any state client side.
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Sign-in successful.
