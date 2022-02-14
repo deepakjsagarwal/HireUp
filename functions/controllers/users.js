@@ -76,7 +76,6 @@ module.exports.renderLogin = (req, res) => {
 
 
 const admin = require("firebase-admin");
-const { object } = require('firebase-functions/v1/storage');
 
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
@@ -89,7 +88,6 @@ module.exports.login = (req, res) => {
             // Sign-in successful.
             const user = userCredential.user;
             user.getIdToken().then((idToken)=>{
-                console.log(idToken);
                 admin.auth().createSessionCookie(idToken,{expiresIn})
                     .then((sessionCookie)=>{
                         const options = { maxAge: expiresIn, httpOnly: true };
