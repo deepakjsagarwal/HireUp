@@ -70,9 +70,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-const PORT = process.env.PORT || 6060;
-app.listen(PORT, () => {
-    console.log(`Listening on http://localhost:${PORT}`);
+app.listen(6060, () => {
+    console.log(`Listening on http://localhost:6060`);
 });
 
 exports.app = functions.https.onRequest(app);
