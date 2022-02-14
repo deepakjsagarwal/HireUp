@@ -7,7 +7,6 @@ const flash = require('connect-flash');
 const path = require('path');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
-const cors = require('cors')
 
 const serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
@@ -17,7 +16,6 @@ admin.initializeApp({
 
 const app = express();
 
-app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
@@ -34,7 +32,7 @@ app.use(session({
     cookie: {
         maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
         secure: false,
-        httpOnly: true
+        httpOnly: false
     }
 }));
 
@@ -53,8 +51,7 @@ app.use(async(req, res, next) => {
             res.locals.currentUser = user;
             req.session.currentUser = user;
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
 
     next();
 });
@@ -73,9 +70,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-const PORT = process.env.PORT || 6060;
-app.listen(PORT, () => {
-    console.log(`Listening on http://localhost:${PORT}`);
+app.listen(6060, () => {
+    console.log(`Listening on http://localhost:6060`);
 });
 
 exports.app = functions.https.onRequest(app);
