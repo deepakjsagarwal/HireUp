@@ -43,7 +43,19 @@ app.use(flash());
 app.use(async(req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error')
-    res.locals.currentUser = firebase.auth().currentUser;
+
+    const sessionCookie = req.cookies.session || "";
+    res.locals.currentUser = null;
+    req.session.currentUser = null;
+
+    await admin.auth().verifySessionCookie(sessionCookie, true)
+        .then((user) => {
+            res.locals.currentUser = user;
+            req.session.currentUser = user;
+        })
+        .catch((error) => {
+        });
+
     next();
 });
 
