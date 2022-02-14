@@ -1,3 +1,2 @@
 Verification of email : Every time
 Editing profile
-Cant see link for your own resume // earlier bug
