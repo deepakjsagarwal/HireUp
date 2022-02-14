@@ -62,7 +62,7 @@ module.exports.register = async(req, res) => {
     const { college, company, degree, title, linkedinURL, skills, dreamCompanies } = req.body;
 
     const user = req.session.currentUser;
-    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.displayName, email: user.email, referredByUsers: [], referralsProvidedToUsers: [] })
+    await usersRef.doc(user.uid).set({ college, company, degree, title, linkedinURL, dreamCompanies, name: user.name, email: user.email, referredByUsers: [], referralsProvidedToUsers: [] })
     for (let skill of skills)
         await usersRef.doc(user.uid).collection('skills').doc(skill).set({ user: [] });
 
