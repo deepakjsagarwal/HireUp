@@ -7,7 +7,6 @@ const flash = require('connect-flash');
 const path = require('path');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
-const cors = require('cors')
 
 const serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
@@ -17,7 +16,6 @@ admin.initializeApp({
 
 const app = express();
 
-app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
@@ -34,7 +32,7 @@ app.use(session({
     cookie: {
         maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
         secure: false,
-        httpOnly: true
+        httpOnly: false
     }
 }));
 
@@ -53,8 +51,7 @@ app.use(async(req, res, next) => {
             res.locals.currentUser = user;
             req.session.currentUser = user;
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
 
     next();
 });
