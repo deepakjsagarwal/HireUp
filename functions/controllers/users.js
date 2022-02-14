@@ -248,7 +248,7 @@ module.exports.editProfile = async(req, res) => {
     const { name, college, company, degree, title, linkedinURL, skills, dreamCompanies, presentSkills } = req.body;
 
     const user = req.session.currentUser;
-    user.updateProfile({
+    await admin.auth().updateUser(user.uid,{
         displayName: name,
     });
 
