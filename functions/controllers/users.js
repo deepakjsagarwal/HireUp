@@ -112,15 +112,9 @@ module.exports.login = (req, res) => {
 
 // ---------- LOGOUT ----------
 module.exports.logout = (req, res) => {
-    firebase.auth().signOut()
-        .then(() => {
-            // Sign-out successful.
-            res.redirect('/');
-        })
-        .catch((error) => {
-            // An error happened.
-            req.flash('error', error.message);
-        });
+    res.clearCookie("session");
+    delete req.session.currentUser;
+    res.redirect("/");
 }
 
 // ---------- LOOKUPS ----------

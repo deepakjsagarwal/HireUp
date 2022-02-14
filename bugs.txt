@@ -1,4 +1,3 @@
 Verification of email : Every time
-Logout or signout function
 Editing profile
 Cant see link for your own resume // earlier bug
