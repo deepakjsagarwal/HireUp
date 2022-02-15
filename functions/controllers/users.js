@@ -78,6 +78,9 @@ module.exports.renderLogin = (req, res) => {
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
 
+    // As httpOnly cookies are to be used, do not persist any state client side.
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+
     const expiresIn = 5 * 24 * 60 * 60 * 1000; // 5 days
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
@@ -88,8 +91,8 @@ module.exports.login = (req, res) => {
                     .then((sessionCookie) => {
                             const options = {
                                 maxAge: expiresIn,
-                                secure: false,
-                                httpOnly: false
+                                secure: true,
+                                httpOnly: true
                             };
                             res.cookie("session", sessionCookie, options);
                             const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
