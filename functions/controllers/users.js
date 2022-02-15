@@ -89,12 +89,9 @@ module.exports.login = (req, res) => {
             user.getIdToken().then((idToken) => {
                 admin.auth().createSessionCookie(idToken, { expiresIn })
                     .then((sessionCookie) => {
-                            const options = {
-                                maxAge: expiresIn,
-                                secure: true,
-                                httpOnly: true
-                            };
-                            res.cookie("session", sessionCookie, options);
+                            // Set cookie policy for session cookie.
+                            const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+                            res.cookie('session', sessionCookie, options);
                             const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
                             delete req.session.returnTo;
                             firebase.auth().signOut();
