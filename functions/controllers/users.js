@@ -112,7 +112,7 @@ module.exports.login = (req, res) => {
 
 // ---------- LOGOUT ----------
 module.exports.logout = (req, res) => {
-    res.clearCookie("session");
+    res.clearCookie('session');
     delete req.session.currentUser;
     res.redirect("/");
 }
