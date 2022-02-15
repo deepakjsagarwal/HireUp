@@ -3,6 +3,7 @@ const { skills } = require('../public/javascripts/skills')
 
 // Initialize Firebase config.
 const firebase = require("firebase");
+const admin = require("firebase-admin");
 const { firebaseConfig } = require('../config');
 firebase.initializeApp(firebaseConfig);
 
@@ -73,9 +74,6 @@ module.exports.register = async(req, res) => {
 module.exports.renderLogin = (req, res) => {
     res.render('users/login')
 }
-
-
-const admin = require("firebase-admin");
 
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
