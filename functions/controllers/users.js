@@ -91,6 +91,7 @@ module.exports.login = (req, res) => {
                     .then((sessionCookie) => {
                             // Set cookie policy for session cookie.
                             const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+                            res.setHeader('Cache-Control', 'private');
                             res.cookie('session', sessionCookie, options);
                             const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
                             delete req.session.returnTo;
