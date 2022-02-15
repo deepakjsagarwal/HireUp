@@ -78,6 +78,7 @@ module.exports.renderLogin = (req, res) => {
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
 
+    const expiresIn = 5 * 24 * 60 * 60 * 1000; // 5 days
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Sign-in successful.
@@ -86,7 +87,7 @@ module.exports.login = (req, res) => {
                 admin.auth().createSessionCookie(idToken, { expiresIn })
                     .then((sessionCookie) => {
                             const options = {
-                                maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
+                                maxAge: expiresIn,
                                 secure: false,
                                 httpOnly: false
                             };
