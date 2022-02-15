@@ -79,29 +79,30 @@ const admin = require("firebase-admin");
 
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
-    const expiresIn = 60 * 60 * 24 * 5 * 1000;
-    // As httpOnly cookies are to be used, do not persist any state client side.
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Sign-in successful.
             const user = userCredential.user;
-            user.getIdToken().then((idToken)=>{
-                admin.auth().createSessionCookie(idToken,{expiresIn})
-                    .then((sessionCookie)=>{
-                        const options = { maxAge: expiresIn, httpOnly: true };
-                        res.cookie("session", sessionCookie, options);
-                        const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
-                        delete req.session.returnTo;
-                        firebase.auth().signOut();
-                        res.redirect(redirectUrl)
-                    },
-                    (error)=>{
-                        res.send(error.message);
-                    })
+            user.getIdToken().then((idToken) => {
+                admin.auth().createSessionCookie(idToken, { expiresIn })
+                    .then((sessionCookie) => {
+                            const options = {
+                                maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
+                                secure: false,
+                                httpOnly: false
+                            };
+                            res.cookie("session", sessionCookie, options);
+                            const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
+                            delete req.session.returnTo;
+                            firebase.auth().signOut();
+                            res.redirect(redirectUrl)
+                        },
+                        (error) => {
+                            res.send(error.message);
+                        })
             })
-            
+
         })
         .catch((error) => {
             // An error happened.
@@ -124,17 +125,17 @@ module.exports.profilePage = async(req, res, next) => {
     if (!doc.exists) {
         next();
     } else {
-        const user = await makeUser(doc,req);
+        const user = await makeUser(doc, req);
         const interestedUsers = [];
         for (let interestedUser of user.referredByUsers) {
             const userDoc = await usersRef.doc(interestedUser.uid).get();
-            interestedUsers.push(await makeUser(userDoc,req))
+            interestedUsers.push(await makeUser(userDoc, req))
         }
 
         const referralsProvidedToUsers = [];
         for (let referralProvidedToUser of user.referralsProvidedToUsers) {
             const userDoc = await usersRef.doc(referralProvidedToUser.uid).get();
-            referralsProvidedToUsers.push(await makeUser(userDoc,req))
+            referralsProvidedToUsers.push(await makeUser(userDoc, req))
         }
 
         res.render('users/profile', { user, interestedUsers, referralsProvidedToUsers })
@@ -149,7 +150,7 @@ module.exports.showUsers = async(req, res, next) => {
 
                 currentUser = {...doc.data(), uid: currentUser.uid };
                 const usersDoc = await usersRef.where('dreamCompanies', 'array-contains', currentUser.company).get();
-                const allUsersWithCurrentUserCompany = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc,req)));
+                const allUsersWithCurrentUserCompany = await Promise.all(usersDoc.docs.map((doc) => makeUser(doc, req)));
 
                 const allNonReferredUserWithCurrentUserCompany = allUsersWithCurrentUserCompany.filter(
                     user => user.referredByUsers.filter(u => u.company === currentUser.company).length === 0
@@ -168,7 +169,7 @@ module.exports.showUsers = async(req, res, next) => {
         });
 }
 
-async function makeUser(doc,req) {
+async function makeUser(doc, req) {
     const skills = [];
     const skillsSnapshot = await usersRef.doc(doc.id).collection('skills').get();
     skillsSnapshot.forEach(doc => {
@@ -239,7 +240,7 @@ module.exports.renderEditForm = async(req, res) => {
     if (!doc.exists) {
         next();
     } else {
-        const user = await makeUser(doc,req);
+        const user = await makeUser(doc, req);
         res.render('users/edit', { user, skills, companies })
     }
 }
@@ -248,7 +249,7 @@ module.exports.editProfile = async(req, res) => {
     const { name, college, company, degree, title, linkedinURL, skills, dreamCompanies, presentSkills } = req.body;
 
     const user = req.session.currentUser;
-    await admin.auth().updateUser(user.uid,{
+    await admin.auth().updateUser(user.uid, {
         displayName: name,
     });
 
@@ -269,7 +270,7 @@ module.exports.editProfile = async(req, res) => {
 module.exports.referUser = async(req, res) => {
     const currentUserDoc = await usersRef.doc(req.session.currentUser.uid).get();
 
-    const currentUser = await makeUser(currentUserDoc,req);
+    const currentUser = await makeUser(currentUserDoc, req);
     const { uid } = req.params;
 
     await usersRef.doc(uid).update({
