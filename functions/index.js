@@ -28,7 +28,12 @@ app.use(session({
     name: '__session',
     secret: 'hireuptothemoon',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
+        secure: false,
+        httpOnly: true
+    }
 }));
 
 app.use(flash());
@@ -37,7 +42,8 @@ app.use(async(req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error')
 
-    const sessionCookie = req.cookies.__session || "";
+    const sessionCookie = req.session.sessionCookie || "";
+
     res.locals.currentUser = null;
     req.session.currentUser = null;
 

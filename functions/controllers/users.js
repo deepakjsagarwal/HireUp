@@ -89,10 +89,12 @@ module.exports.login = (req, res) => {
             user.getIdToken().then((idToken) => {
                 admin.auth().createSessionCookie(idToken, { expiresIn })
                     .then((sessionCookie) => {
-                            // Set cookie policy for session cookie.
-                            const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+                        
+                            console.log(req.session)
                             res.setHeader('Cache-Control', 'private');
-                            res.cookie('__session', sessionCookie, options);
+                            req.session.sessionCookie = sessionCookie
+                            
+                            console.log(req.session)
                             const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
                             delete req.session.returnTo;
                             firebase.auth().signOut();
@@ -113,7 +115,7 @@ module.exports.login = (req, res) => {
 
 // ---------- LOGOUT ----------
 module.exports.logout = (req, res) => {
-    res.clearCookie('__session');
+    delete req.session.sessionCookie;
     delete req.session.currentUser;
     res.redirect("/");
 }
