@@ -92,7 +92,7 @@ module.exports.login = (req, res) => {
                             // Set cookie policy for session cookie.
                             const options = { maxAge: expiresIn, httpOnly: true, secure: true };
                             res.setHeader('Cache-Control', 'private');
-                            res.cookie('session', sessionCookie, options);
+                            res.cookie('__session', sessionCookie, options);
                             const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
                             delete req.session.returnTo;
                             firebase.auth().signOut();
@@ -113,7 +113,7 @@ module.exports.login = (req, res) => {
 
 // ---------- LOGOUT ----------
 module.exports.logout = (req, res) => {
-    res.clearCookie('session');
+    res.clearCookie('__session');
     delete req.session.currentUser;
     res.redirect("/");
 }
