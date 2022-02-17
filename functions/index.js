@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const path = require('path');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')({ origin: true });
 
 const serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors);
 app.use(cookieParser('hireuptothemoon'));
 app.use(session({
     name: '__session',
