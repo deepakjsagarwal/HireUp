@@ -44,18 +44,13 @@ app.use(async(req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error')
 
-    const sessionCookie = req.session.sessionCookie || "";
-
     res.locals.currentUser = null;
-    req.session.currentUser = null;
-
-    await admin.auth().verifySessionCookie(sessionCookie, true)
-        .then((user) => {
-            res.locals.currentUser = user;
-            req.session.currentUser = user;
-        })
-        .catch((error) => {});
-
+    const currentUser = req.session.currentUser || "";
+    const uid = currentUser.uid;
+    if(uid){
+        if(!res.locals.currentUser)
+            res.locals.currentUser = await admin.auth().getUser(uid)
+    }
     next();
 });
 

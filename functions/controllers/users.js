@@ -81,29 +81,20 @@ module.exports.login = (req, res) => {
     // As httpOnly cookies are to be used, do not persist any state client side.
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
 
-    const expiresIn = 5 * 24 * 60 * 60 * 1000; // 5 days
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Sign-in successful.
             const user = userCredential.user;
-            user.getIdToken().then((idToken) => {
-                admin.auth().createSessionCookie(idToken, { expiresIn })
-                    .then((sessionCookie) => {
-                        
-                            console.log(req.session)
-                            res.setHeader('Cache-Control', 'private');
-                            req.session.sessionCookie = sessionCookie
-                            
-                            console.log(req.session)
-                            const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
-                            delete req.session.returnTo;
-                            firebase.auth().signOut();
-                            res.redirect(redirectUrl)
-                        },
-                        (error) => {
-                            res.send(error.message);
-                        })
-            })
+            req.session.currentUser = {
+                uid: user.uid,
+                email_verified: user.emailVerified,
+                name: user.displayName,
+                email: user.email
+            };
+            const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
+            delete req.session.returnTo;
+            firebase.auth().signOut();
+            res.redirect(redirectUrl)
 
         })
         .catch((error) => {
@@ -115,7 +106,6 @@ module.exports.login = (req, res) => {
 
 // ---------- LOGOUT ----------
 module.exports.logout = (req, res) => {
-    delete req.session.sessionCookie;
     delete req.session.currentUser;
     res.redirect("/");
 }
