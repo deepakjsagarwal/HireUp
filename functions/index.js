@@ -51,6 +51,7 @@ app.use(async(req, res, next) => {
         if(!res.locals.currentUser)
             res.locals.currentUser = await admin.auth().getUser(uid)
     }
+    functions.logger.log(req.originalUrl,"Session: ",req.session)
     next();
 });
 
