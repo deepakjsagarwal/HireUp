@@ -9,7 +9,11 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')({ origin: true });
 
+const { firebaseConfig } = require('./config');
+
 const serviceAccount = require("./serviceAccountKey.json");
+firebase.initializeApp({ ...firebaseConfig });
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://hireupworks-d9868.firebaseio.com'
@@ -29,7 +33,7 @@ app.use(cookieParser('hireuptothemoon'));
 app.use(session({
     name: '__session',
     secret: 'hireuptothemoon',
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     cookie: {
         maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days

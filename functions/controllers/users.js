@@ -4,13 +4,11 @@ const { skills } = require('../public/javascripts/skills')
 // Initialize Firebase config.
 const firebase = require("firebase");
 const admin = require("firebase-admin");
-const { firebaseConfig } = require('../config');
-firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase Database.
 const db = firebase.firestore();
 const usersRef = db.collection('users');
-
+const functions = require('firebase-functions');
 // ---------- HOME ----------
 module.exports.renderHome = (req, res) => {
     res.render('home');
@@ -77,31 +75,35 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = (req, res) => {
     const { email, password } = req.body;
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+    .then(() => {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Sign-in successful.
+                const user = userCredential.user;
+                req.session.currentUser = {
+                    uid: user.uid,
+                    email_verified: user.emailVerified,
+                    name: user.displayName,
+                    email: user.email
+                };
+                const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
+                delete req.session.returnTo;
+                firebase.auth().signOut();
+                res.redirect(redirectUrl)
 
-    // As httpOnly cookies are to be used, do not persist any state client side.
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
-
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            // Sign-in successful.
-            const user = userCredential.user;
-            req.session.currentUser = {
-                uid: user.uid,
-                email_verified: user.emailVerified,
-                name: user.displayName,
-                email: user.email
-            };
-            const redirectUrl = req.session.returnTo || `/profile/${user.uid}`
-            delete req.session.returnTo;
-            firebase.auth().signOut();
-            res.redirect(redirectUrl)
-
-        })
-        .catch((error) => {
-            // An error happened.
-            req.flash('error', error.message);
-            res.redirect('/login')
-        });
+            })
+            .catch((error) => {
+                // An error happened.
+                req.flash('error', error.message);
+                res.redirect('/login')
+            });
+    })
+    .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    });
 }
 
 // ---------- LOGOUT ----------
