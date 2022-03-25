@@ -206,27 +206,6 @@ module.exports.verificationPage = (req, res) => {
     }
 }
 
-module.exports.verificationSend = (req, res) => {
-    req.session.currentUser.sendEmailVerification()
-        .then(() => {
-            // Send verification link and log Out.
-            firebase.auth().signOut()
-                .then(() => {
-                    // Sign-out successful.
-                    req.flash('success', "Verify your email and come back :)")
-                    res.redirect('/');
-                })
-        })
-        .catch((error) => {
-            firebase.auth().signOut()
-                .then(() => {
-                    // Sign-out successful.
-                })
-            req.flash('error', error.message);
-            res.redirect('/')
-        })
-}
-
 // ---------- Editing Profile ----------------
 module.exports.renderEditForm = async(req, res) => {
     const user = req.session.currentUser;

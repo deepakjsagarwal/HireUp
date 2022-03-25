@@ -34,7 +34,6 @@ router.get("/all", isLoggedIn, isUserVerified, catchAsync(isProfileComplete), ca
 
 router.route("/verification")
     .get(isLoggedIn, users.verificationPage)
-    .post(isLoggedIn, users.verificationSend);
 
 router.get("/like/:uid/:skillId", isLoggedIn, isUserVerified, catchAsync(isProfileComplete), catchAsync(users.likeSkill));
 
