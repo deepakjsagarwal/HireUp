@@ -9,7 +9,7 @@
         </h3>
         <br/>
         <form>
-            <input type="file" id="files" multiple /><br/><br/>
+            <input type="file" id="files"/><br/><br/>
             <button class="btn btn-success btn-block" id="send">Upload</button>
             <p id="uploading"></p>
             <progress value="0" max="100" id="progress"></progress>
@@ -34,9 +34,7 @@
     </script>
 
     <script>
-        const currentUserUID = <%-JSON.stringify(currentUser.uid)%>;
-
-        var files = [];
+        var files;
         document.getElementById("files").addEventListener("change", function(e) {
             files = e.target.files[0];
         });
@@ -44,6 +42,7 @@
         document.getElementById("send").addEventListener("click", function(e) {
             e.preventDefault();
             if (files) {
+                const currentUserUID = <%-JSON.stringify(currentUser.uid)%>;
                 const storage = firebase.storage().ref(`resumes/${currentUserUID}`);
                 const upload = storage.put(files);
                 //update progress bar
@@ -76,8 +75,8 @@
                 .getDownloadURL()
                 .then(function(url) {
                     document.getElementById("urlForm").innerHTML = `
-        <input type="hidden"  name="resume" value="${url}">
-        `;
+                        <input type="hidden"  name="resume" value="${url}">
+                    `;
                     document.getElementById("urlForm").submit();
                 })
                 .catch(function(error) {});
